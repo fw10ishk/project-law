@@ -1,0 +1,101 @@
+/* ============================================================
+   LEGALCONNECT — PAYMENTS & EARNINGS
+   payments.css — Earnings metrics, transaction tables & fee cards
+   ============================================================ */
+
+.earnings-overview {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-5);
+  margin-bottom: var(--space-8);
+}
+
+.earnings-card {
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  border: 1px solid var(--color-gray-100);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.earnings-card-title {
+  font-size: var(--text-body-sm);
+  color: var(--color-gray-500);
+  margin-bottom: var(--space-2);
+}
+
+.earnings-card-value {
+  font-family: var(--font-display);
+  font-size: var(--text-headline-md);
+  font-weight: var(--weight-bold);
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+
+.earnings-card-trend {
+  font-size: var(--text-label-sm);
+  color: var(--color-success);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* Fee Breakdown Demo Card */
+.fee-breakdown-card {
+  background: linear-gradient(135deg, rgba(26, 39, 68, 0.04), rgba(13, 148, 136, 0.06));
+  border: 1px solid rgba(13, 148, 136, 0.15);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  margin-bottom: var(--space-8);
+}
+
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-2) 0;
+  font-size: var(--text-body-md);
+  color: var(--color-gray-700);
+}
+
+.breakdown-row.total {
+  border-top: 1px solid var(--color-gray-200);
+  padding-top: var(--space-3);
+  font-weight: var(--weight-bold);
+  color: var(--color-gray-900);
+}
+
+/* Transactions Table */
+.transactions-container {
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-gray-100);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.transactions-header {
+  padding: var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-gray-100);
+}
+
+.txn-amount-positive {
+  color: var(--color-success-dark);
+  font-weight: var(--weight-semibold);
+}
+
+@media (max-width: 1024px) {
+  .earnings-overview {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .earnings-overview {
+    grid-template-columns: 1fr;
+  }
+}

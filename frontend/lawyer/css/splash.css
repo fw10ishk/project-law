@@ -1,0 +1,155 @@
+/* ============================================================
+   LEGALCONNECT — SPLASH SCREEN
+   splash.css — Full-screen splash with animated logo & loading
+   ============================================================ */
+
+.splash-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--color-primary) 0%, #1e3a5f 40%, var(--color-accent-dark) 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 12s ease infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.splash-screen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(13, 148, 136, 0.2) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.splash-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  animation: scaleIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.splash-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: var(--radius-2xl);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-6);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: float 4s ease-in-out infinite;
+}
+
+.splash-logo .material-symbols-rounded {
+  font-size: 52px;
+  color: var(--color-white);
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+}
+
+.splash-title {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: var(--weight-bold);
+  color: var(--color-white);
+  margin-bottom: var(--space-3);
+  letter-spacing: -0.02em;
+}
+
+.splash-title span {
+  background: linear-gradient(135deg, var(--color-accent-lighter), var(--color-gold-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.splash-subtitle {
+  font-family: var(--font-display);
+  font-size: var(--text-body-lg);
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: var(--space-2);
+  font-weight: var(--weight-medium);
+}
+
+.splash-tagline {
+  font-size: var(--text-body-sm);
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: var(--space-10);
+  font-style: italic;
+}
+
+.splash-loader {
+  width: 200px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.splash-loader-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--color-accent-lighter), var(--color-gold-light));
+  border-radius: var(--radius-full);
+  transition: width 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.splash-loader-bar.loading {
+  width: 100%;
+}
+
+/* Floating particles effect */
+.splash-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.splash-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  animation: particleFloat 15s linear infinite;
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-10vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.splash-particle:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 12s; }
+.splash-particle:nth-child(2) { left: 20%; animation-delay: 2s; animation-duration: 14s; width: 3px; height: 3px; }
+.splash-particle:nth-child(3) { left: 35%; animation-delay: 4s; animation-duration: 11s; }
+.splash-particle:nth-child(4) { left: 50%; animation-delay: 1s; animation-duration: 16s; width: 5px; height: 5px; }
+.splash-particle:nth-child(5) { left: 65%; animation-delay: 3s; animation-duration: 13s; }
+.splash-particle:nth-child(6) { left: 80%; animation-delay: 5s; animation-duration: 15s; width: 3px; height: 3px; }
+.splash-particle:nth-child(7) { left: 90%; animation-delay: 2s; animation-duration: 12s; }
+.splash-particle:nth-child(8) { left: 45%; animation-delay: 6s; animation-duration: 14s; width: 6px; height: 6px; }

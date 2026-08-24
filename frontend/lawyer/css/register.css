@@ -1,0 +1,232 @@
+/* ============================================================
+   LEGALCONNECT — REGISTRATION
+   register.css — Multi-step registration form styles
+   ============================================================ */
+
+.register-container {
+  width: 100%;
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: var(--space-6);
+}
+
+.register-title {
+  font-family: var(--font-display);
+  font-size: var(--text-headline-md);
+  font-weight: var(--weight-bold);
+  color: var(--color-gray-900);
+  margin-bottom: var(--space-2);
+}
+
+.register-subtitle {
+  font-size: var(--text-body-md);
+  color: var(--color-gray-500);
+}
+
+/* Stepper inside fullscreen */
+.register-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: var(--space-8);
+  flex-wrap: wrap;
+}
+
+.register-step {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.register-step-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: var(--text-body-sm);
+  font-weight: var(--weight-semibold);
+  background: var(--color-gray-200);
+  color: var(--color-gray-500);
+  transition: all var(--transition-base);
+  flex-shrink: 0;
+}
+
+.register-step.active .register-step-circle {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+  color: var(--color-white);
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+}
+
+.register-step.completed .register-step-circle {
+  background: var(--color-success);
+  color: var(--color-white);
+}
+
+.register-step-label {
+  font-size: var(--text-label-md);
+  color: var(--color-gray-500);
+  white-space: nowrap;
+}
+
+.register-step.active .register-step-label {
+  color: var(--color-accent-dark);
+  font-weight: var(--weight-semibold);
+}
+
+.register-step.completed .register-step-label {
+  color: var(--color-success-dark);
+  font-weight: var(--weight-medium);
+}
+
+.register-step-line {
+  width: 48px;
+  height: 2px;
+  background: var(--color-gray-200);
+  margin: 0 var(--space-3);
+  flex-shrink: 0;
+}
+
+.register-step.completed + .register-step .register-step-line,
+.register-step.completed ~ .register-step-line {
+  background: var(--color-success);
+}
+
+/* Form Grid */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4) var(--space-6);
+}
+
+.form-grid-full {
+  grid-column: 1 / -1;
+}
+
+/* Photo Upload */
+.photo-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  grid-column: 1 / -1;
+  margin-bottom: var(--space-3);
+}
+
+.photo-preview {
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  background: var(--color-gray-100);
+  border: 3px dashed var(--color-gray-300);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  overflow: hidden;
+  margin-bottom: var(--space-2);
+  position: relative;
+}
+
+.photo-preview:hover {
+  border-color: var(--color-accent);
+  background: var(--color-accent-50);
+}
+
+.photo-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-preview .material-symbols-rounded {
+  font-size: 32px;
+  color: var(--color-gray-400);
+}
+
+.photo-label {
+  font-size: var(--text-body-sm);
+  color: var(--color-gray-500);
+  font-weight: var(--weight-medium);
+}
+
+/* Interactive chips selector */
+.selectable-chips-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.selectable-chip {
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--color-gray-200);
+  background: var(--color-white);
+  color: var(--color-gray-700);
+  font-size: var(--text-body-sm);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  user-select: none;
+}
+
+.selectable-chip:hover {
+  border-color: var(--color-accent);
+  background: var(--color-accent-50);
+}
+
+.selectable-chip.selected {
+  background: var(--color-accent-50);
+  color: var(--color-accent-dark);
+  border-color: var(--color-accent);
+  font-weight: var(--weight-semibold);
+  box-shadow: 0 0 0 2px var(--color-accent-100);
+}
+
+/* Document compare notice banner */
+.doc-comparison-banner {
+  background: var(--color-info-light);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-body-sm);
+  color: var(--color-info);
+  margin-bottom: var(--space-5);
+}
+
+.doc-comparison-banner .material-symbols-rounded {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+/* Navigation Buttons */
+.register-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-gray-100);
+}
+
+@media (max-width: 640px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .register-step-label {
+    display: none;
+  }
+  .register-step-line {
+    width: 24px;
+  }
+}

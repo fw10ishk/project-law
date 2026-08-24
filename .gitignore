@@ -1,0 +1,6 @@
+node_modules/
+.env
+__pycache__/
+*.pyc
+ai-service/models/saved_models/*
+!ai-service/models/saved_models/.keep
