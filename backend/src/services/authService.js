@@ -220,8 +220,11 @@ async function login(identifierRaw, password, req) {
   const data = db.get();
   const identifierEmail = String(identifierRaw || '').toLowerCase().trim();
   const identifierPhone = normalizePhone(identifierRaw);
+  // Advocates and verification-desk admins share this entry point;
+  // downstream routes enforce role via requireRole().
   const user = data.users.find(u =>
-    u.role === 'lawyer' && (u.email === identifierEmail || u.phoneNormalized === identifierPhone)
+    (u.role === 'lawyer' || u.role === 'admin') &&
+    (u.email === identifierEmail || u.phoneNormalized === identifierPhone)
   );
 
   if (!user) {

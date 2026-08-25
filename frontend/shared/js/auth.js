@@ -150,7 +150,7 @@ const AuthManager = {
       if (!res.ok) return { success: false, message: data.error || 'Could not resend code.' };
       if (data.devOtp) {
         console.log('[LegalConnect] Simulated OTP delivery:', data.devOtp);
-        this._lastDevOtp = res.devOtp;
+        this._lastDevOtp = data.devOtp;
       }
       return { success: true, message: 'A fresh 6-digit code was generated.', devOtp: data.devOtp };
     } catch (_e) {

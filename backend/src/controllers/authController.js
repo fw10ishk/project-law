@@ -126,6 +126,9 @@ exports.changePassword = async (req, res) => {
   }
   req.user.passwordHash = await bcrypt.hash(newPassword, 10);
   req.user.passwordChangeRequired = false;
+  // Password change is the advertised recovery path for an incident lock —
+  // completing it restores sensitive-action access immediately.
+  req.user.sensitiveActionsLockedUntil = null;
   // Security best-practice: revoke every other session after a password change.
   const revoked = authService.revokeAllSessions(req.user.id, req.session.id);
   db.save();

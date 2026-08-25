@@ -22,7 +22,7 @@ router.post('/auth/otp/verify', auth.verifyOTP);
 router.get('/auth/session', authenticate, auth.session);
 router.post('/auth/logout', authenticate, auth.logout);
 router.post('/auth/device-confirm', authenticate, auth.confirmNewDevice);
-router.post('/auth/change-password', authenticate, ensureNotLocked, auth.changePassword);
+router.post('/auth/change-password', authenticate, auth.changePassword);
 
 router.get('/auth/devices', authenticate, auth.listDevices);
 router.delete('/auth/devices/:deviceId', authenticate, auth.revokeDevice);

@@ -34,7 +34,7 @@ const DashboardPage = {
         </div>
 
         <div class="d-flex gap-3 flex-wrap">
-          <button class="btn btn-secondary" onclick="Router.navigate('/cases', { create: true })">
+          <button class="btn btn-secondary" onclick="Router.navigate('/cases/new')">
             <span class="material-symbols-rounded">add_circle</span> New Case File
           </button>
           <button class="btn btn-primary" onclick="Router.navigate('/consultation')">
