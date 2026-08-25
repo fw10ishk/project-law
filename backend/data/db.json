@@ -66,7 +66,59 @@
    "createdAt": "2026-08-24T19:18:51.703Z"
   }
  ],
- "otpChallenges": [],
+ "otpChallenges": [
+  {
+   "id": "otp_mt848roq5v8jc1",
+   "userId": "law_demo_001",
+   "codeHash": "490ef6f8f2e9c07ff806af16b4ad8574",
+   "device": {
+    "deviceId": "dev_mt848r3xa6vxnp",
+    "deviceType": "Desktop",
+    "browser": "Chrome",
+    "os": "Windows",
+    "location": "India (approx.)"
+   },
+   "isNewDevice": true,
+   "attempts": 0,
+   "expiresAt": "2026-08-25T03:44:14.859Z",
+   "consumed": false,
+   "createdAt": "2026-08-25T03:39:14.859Z"
+  },
+  {
+   "id": "otp_mt867auzrlzdfx",
+   "userId": "law_demo_001",
+   "codeHash": "ffb8ed1da7f8dd3919bef83ce8df6e07",
+   "device": {
+    "deviceId": "unknown-device",
+    "deviceType": "Desktop",
+    "browser": "Unknown browser",
+    "os": "Windows",
+    "location": "India (approx.)"
+   },
+   "isNewDevice": true,
+   "attempts": 0,
+   "expiresAt": "2026-08-25T04:39:05.628Z",
+   "consumed": false,
+   "createdAt": "2026-08-25T04:34:05.628Z"
+  },
+  {
+   "id": "otp_mt867mu7d05bl9",
+   "userId": "law_demo_001",
+   "codeHash": "39868d98fc786305fed7c00514fc3752",
+   "device": {
+    "deviceId": "unknown-device",
+    "deviceType": "Desktop",
+    "browser": "Unknown browser",
+    "os": "Windows",
+    "location": "India (approx.)"
+   },
+   "isNewDevice": true,
+   "attempts": 0,
+   "expiresAt": "2026-08-25T04:39:21.151Z",
+   "consumed": false,
+   "createdAt": "2026-08-25T04:34:21.151Z"
+  }
+ ],
  "sessions": [],
  "trustedDevices": [],
  "loginActivity": [],
