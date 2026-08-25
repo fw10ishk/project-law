@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LegalConnect — Verification Desk</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  <style>
+    :root {
+      --primary: #1a2744; --accent: #0d9488; --bg: #f6f8fb; --card: #ffffff;
+      --border: #e5e9f0; --text: #111827; --muted: #6b7280;
+      --success: #059669; --danger: #dc2626; --warn: #d97706;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 24px clamp(12px, 3vw, 40px); }
+    header { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+    .brand { display: flex; gap: 10px; align-items: center; font-weight: 700; }
+    .brand-icon { width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff; display: grid; place-items: center; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; box-shadow: 0 8px 24px rgba(15,23,42,.06); margin-bottom: 16px; }
+    h2 { font-size: 1.1rem; margin-bottom: 4px; }
+    .sub { color: var(--muted); font-size: .85rem; }
+    input { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 999px; font: inherit; margin-top: 8px; }
+    button { font: inherit; cursor: pointer; border: none; border-radius: 999px; padding: 9px 18px; font-weight: 600; }
+    button.primary { background: var(--accent); color: #fff; }
+    button.ghost { background: #eef2f7; color: var(--text); }
+    button.approve { background: rgba(5,150,105,.12); color: var(--success); }
+    button.reject { background: rgba(220,38,38,.1); color: var(--danger); }
+    button.docs { background: rgba(217,119,6,.12); color: var(--warn); }
+    table { width: 100%; border-collapse: collapse; font-size: .86rem; }
+    th { text-align: left; color: var(--muted); font-size: .74rem; text-transform: uppercase; letter-spacing: .04em; padding: 10px 8px; border-bottom: 2px solid var(--border); white-space: nowrap; }
+    td { padding: 12px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: .72rem; font-weight: 600; white-space: nowrap; }
+    .b-warn { background: rgba(245,158,11,.14); color: var(--warn); }
+    .b-err  { background: rgba(220,38,38,.1); color: var(--danger); }
+    .b-ok   { background: rgba(5,150,105,.12); color: var(--success); }
+    .actions { display: flex; gap: 6px; flex-wrap: wrap; }
+    .table-wrap { overflow-x: auto; }
+    .muted { color: var(--muted); }
+    .hidden { display: none !important; }
+    .login-box { max-width: 380px; margin: 8vh auto; }
+    @media (max-width: 720px) { td, th { padding: 8px 6px; } }
+  </style>
+</head>
+<body>
+  <div id="login-view" class="login-box">
+    <div class="card">
+      <div class="brand"><div class="brand-icon"><span class="material-symbols-rounded">gavel</span></div> Verification Desk</div>
+      <p class="sub" style="margin:8px 0 12px">Admin reviewer sign-in</p>
+      <form onsubmit="Admin.login(event)">
+        <input type="email" id="adm-email" placeholder="admin@legalconnect.in" required>
+        <input type="password" id="adm-pass" placeholder="Password" required>
+        <button class="primary w-full" style="width:100%;margin-top:14px">Sign In</button>
+      </form>
+      <p class="sub" style="margin-top:12px">Seeded credentials: admin@legalconnect.in / Admin@1234</p>
+    </div>
+  </div>
+
+  <div id="desk-view" class="hidden">
+    <header>
+      <div>
+        <h2>Pending Verification Queue</h2>
+        <p class="sub">Approve, reject or request additional documents for advocate applications</p>
+      </div>
+      <button class="ghost" onclick="location.reload()">Refresh</button>
+    </header>
+    <div class="card table-wrap">
+      <table id="queue-table">
+        <thead><tr><th>Advocate</th><th>Bar Registration</th><th>Pipeline</th><th>Documents</th><th style="min-width:220px">Decision</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const Admin = {
+      token: '',
+      async login(e) {
+        e.preventDefault();
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ identifier: document.getElementById('adm-email').value.trim(), password: document.getElementById('adm-pass').value })
+        });
+        const data = await res.json();
+        if (!res.ok) return alert(data.error || 'Sign-in failed');
+        const otp = await fetch('/api/auth/otp/verify', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ challengeId: data.challengeId, code: data.devOtp || prompt('Enter the OTP printed in the server console:') })
+        });
+        const otpData = await otp.json();
+        if (!otp.ok) return alert(otpData.error || 'OTP failed');
+        this.token = otpData.token;
+        if (otpData.user.role !== 'admin') return alert('This console is for admins only.');
+        sessionStorage.setItem('lc_admin_token', this.token);
+        this.showDesk();
+      },
+      async showDesk() {
+        document.getElementById('login-view').classList.add('hidden');
+        document.getElementById('desk-view').classList.remove('hidden');
+        const res = await fetch('/api/admin/queue', { headers: { Authorization: 'Bearer ' + this.token } });
+        if (!res.ok) return alert('Failed to load queue');
+        const { queue } = await res.json();
+        const tbody = document.querySelector('#queue-table tbody');
+        tbody.innerHTML = queue.length === 0
+          ? '<tr><td colspan="5" class="muted" style="text-align:center;padding:32px">Queue is empty — all caught up.</td></tr>'
+          : queue.map(a => `
+            <tr>
+              <td><strong>${a.name}</strong><br><span class="muted">${a.email}</span><br><span class="muted">${a.city}</span></td>
+              <td class="muted">${a.barCouncil}<br>${a.stateBarCouncil}</td>
+              <td>
+                ${a.pipeline ? `<span class="badge b-warn">${a.pipeline.overall}</span><br><span class="badge ${String(a.pipeline.fraudStatus).includes('high') ? 'b-err' : 'b-ok'}">${a.pipeline.fraudStatus}</span>` : '<span class="muted">No record</span>'}
+                <br><span class="muted">Account: ${a.accountStatus}</span>
+              </td>
+              <td>${(a.documents||[]).map(d => `📄 ${d.category} (${Math.round(d.sizeBytes/1024)} KB)`).join('<br>') || '<span class="muted">None</span>'}</td>
+              <td>
+                <div class="actions">
+                  <button class="approve" onclick="Admin.decide('${a.id}','approve')">Approve</button>
+                  <button class="docs" onclick="Admin.decide('${a.id}','request_documents','Additional documents requested by the verification desk.')">Request Docs</button>
+                  <button class="reject" onclick="Admin.decide('${a.id}','reject', prompt('Reason for rejection:') || 'Application not approved.')">Reject</button>
+                </div>
+              </td>
+            </tr>`).join('');
+      },
+      async decide(id, decision, reason = '') {
+        if (!confirm('Confirm decision: ' + decision.replace('_', ' ') + '?')) return;
+        const res = await fetch(`/api/admin/decide/${id}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + this.token },
+          body: JSON.stringify({ decision, reason })
+        });
+        const data = await res.json().catch(() => ({}));
+        alert(res.ok ? 'Decision recorded — the advocate has been notified.' : (data.error || 'Action failed'));
+        if (res.ok) this.showDesk();
+      }
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const saved = sessionStorage.getItem('lc_admin_token');
+      if (saved) { Admin.token = saved; Admin.showDesk(); }
+    });
+  </script>
+</body>
+</html>

@@ -1,9 +1,30 @@
+/* ============================================================
+   LEGALCONNECT — SERVER ENTRYPOINT
+   server.js — Boot sequence: seed database, start listener
+   ============================================================ */
+
 const app = require('./app');
-const envConfig = require('../config/envConfig');
-const dbConfig = require('../config/dbConfig');
+const envConfig = require('./config/envConfig');
+const db = require('./config/dbConfig');
+const { seedIfEmpty } = require('./data/seed');
 
-const PORT = process.env.PORT || 3000;
+async function main() {
+  db.load();
+  await seedIfEmpty();
 
-app.listen(PORT, () => {
-    console.log(\Server is running on port \\);
+  const PORT = envConfig.port;
+  app.listen(PORT, envConfig.host, () => {
+    console.log('──────────────────────────────────────────────');
+    console.log('  LegalConnect — Advocate Portal API');
+    console.log(`  Environment : ${envConfig.env}`);
+    console.log(`  Portal      : http://localhost:${PORT}/  (lawyer SPA)`);
+    console.log(`  Admin desk  : http://localhost:${PORT}/admin`);
+    console.log(`  Database    : ${db.DB_FILE}`);
+    console.log('──────────────────────────────────────────────');
+  });
+}
+
+main().catch(err => {
+  console.error('Fatal boot error:', err);
+  process.exit(1);
 });

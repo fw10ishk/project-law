@@ -1,99 +1,126 @@
 /* ============================================================
    LEGALCONNECT — MAIN APPLICATION ENTRY POINT
-   app.js — SPA Router configuration, route guards & boot sequence
+   app.js — SPA route table, guards & boot sequence
    ============================================================ */
 
-document.addEventListener('DOMContentLoaded', () => {
-  // 1. Initialize Central State Store
+document.addEventListener('DOMContentLoaded', async () => {
+  // 1. Initialize state store (hydrates cache instantly, then server)
   Store.init();
 
-  // 2. Register all SPA Routes
-  // Splash & Roles
+  /* ---------------- Splash & Role selection ---------------- */
   Router.register('/splash', () => SplashPage.render(), {
-    title: 'LegalConnect — AI Legal Assistant',
+    title: 'AI-Powered Legal Assistant',
     onEnter: () => SplashPage.onEnter()
   });
 
   Router.register('/role-select', () => AuthPage.renderRoleSelect(), {
-    title: 'Select Role — LegalConnect'
+    title: 'Select Your Role'
   });
 
-  // Auth Flow
-  Router.register('/login', () => AuthPage.renderLogin(), {
-    title: 'Advocate Login — LegalConnect'
-  });
-
-  Router.register('/forgot-password', () => AuthPage.renderForgotPassword(), {
-    title: 'Password Recovery — LegalConnect'
-  });
-
+  /* ---------------- Authentication flow ---------------- */
+  Router.register('/login', () => AuthPage.renderLogin(), { title: 'Advocate Sign In' });
+  Router.register('/forgot-password', () => AuthPage.renderForgotPassword(), { title: 'Password Recovery' });
   Router.register('/otp', () => OTPPage.render(), {
-    title: 'Two-Factor Authentication — LegalConnect',
+    title: 'Two-Factor Verification',
     onEnter: () => OTPPage.onEnter()
   });
+  Router.register('/device-check', () => OTPPage.renderDeviceCheck(), { title: 'New Device Confirmation' });
 
-  Router.register('/device-check', () => OTPPage.renderDeviceCheck(), {
-    title: 'Device Security Check — LegalConnect'
-  });
-
-  // Registration & Verification
-  Router.register('/register', () => RegisterPage.render(), {
-    title: 'Advocate Registration — LegalConnect'
-  });
-
+  /* ---------------- Registration & verification ---------------- */
+  Router.register('/register', () => RegisterPage.render(), { title: 'Advocate Registration' });
   Router.register('/verification', () => VerificationPage.render(), {
-    title: 'Credential Verification — LegalConnect'
+    title: 'Credential Verification',
+    onEnter: () => VerificationPage.onEnter()
   });
 
-  // Main Advocate Portal Pages (Auth Protected)
+  /* ---------------- Portal pages (auth-protected) ---------------- */
   Router.register('/dashboard', () => DashboardPage.render(), {
-    title: 'Advocate Dashboard — LegalConnect',
+    title: 'Advocate Dashboard',
     requiresAuth: true
   });
 
   Router.register('/clients', (params) => ClientsPage.render(params), {
-    title: 'Client Consultation Requests — LegalConnect',
+    title: 'Client Requests',
+    requiresAuth: true
+  });
+  Router.register('/clients/id/:id', (params) => ClientsPage.render(params), {
+    title: 'Case Evaluation',
     requiresAuth: true
   });
 
   Router.register('/consultation', () => ConsultationPage.render(), {
-    title: 'Virtual Consultation Chamber — LegalConnect',
+    title: 'Consultation Room',
     requiresAuth: true,
     onEnter: () => ConsultationPage.onEnter(),
     onLeave: () => ConsultationPage.onLeave()
   });
 
   Router.register('/chat', () => ChatPage.render(), {
-    title: 'Client Legal Chat — LegalConnect',
+    title: 'Secure Client Chat',
+    requiresAuth: true,
+    onEnter: () => ChatPage.onEnter()
+  });
+  Router.register('/chat/conv/:id', (params) => ChatPage.render(params), {
+    title: 'Secure Client Chat',
     requiresAuth: true,
     onEnter: () => ChatPage.onEnter()
   });
 
   Router.register('/cases', (params) => CasesPage.render(params), {
-    title: 'Case File Management — LegalConnect',
+    title: 'Case Management',
+    requiresAuth: true
+  });
+  Router.register('/cases/id/:id', (params) => CasesPage.render(params), {
+    title: 'Case File',
+    requiresAuth: true
+  });
+  Router.register('/cases/new', () => CasesPage.renderCreateCaseModal ? CasesPage.renderCreateCaseModal() : '', {
+    title: 'New Case File',
     requiresAuth: true
   });
 
   Router.register('/payments', () => PaymentsPage.render(), {
-    title: 'Earnings & Settlements — LegalConnect',
+    title: 'Earnings & Payments',
     requiresAuth: true
   });
 
   Router.register('/reviews', () => ReviewsPage.render(), {
-    title: 'Client Reviews & Ratings — LegalConnect',
+    title: 'Client Reviews',
     requiresAuth: true
   });
 
-  Router.register('/profile', () => ProfilePage.render(), {
-    title: 'Advocate Portfolio & Bio — LegalConnect',
+  const PROFILE_TABS = ['portfolio', 'experience', 'cases', 'certificates', 'pricing', 'availability'];
+  Router.register('/profile', (params) => ProfilePage.render(params), {
+    title: 'Portfolio & Profile',
     requiresAuth: true
   });
-
-  Router.register('/settings', (params) => SettingsPage.render(params), {
-    title: 'Settings & Security Center — LegalConnect',
-    requiresAuth: true
+  PROFILE_TABS.forEach(tab => {
+    Router.register(`/profile/tab/${tab}`, () => ProfilePage.render({ tab }), {
+      title: 'Portfolio & Profile',
+      requiresAuth: true
+    });
   });
 
-  // 3. Initialize Router
+  const SETTINGS_TABS = ['account', 'professional', 'security', 'privacy', 'notifications', 'support', 'deactivate', 'verification-center'];
+  Router.register('/settings', (params) => {
+    const html = SettingsPage.render(params);
+    if (!params || !params.tab || params.tab === 'security') setTimeout(() => SettingsPage.hydrateSecurityPane(), 60);
+    return html;
+  }, { title: 'Settings & Security', requiresAuth: true });
+  SETTINGS_TABS.forEach(tab => {
+    Router.register(`/settings/tab/${tab}`, () => {
+      const html = SettingsPage.render({ tab });
+      if (tab === 'security') setTimeout(() => SettingsPage.hydrateSecurityPane(), 60);
+      return html;
+    }, { title: 'Settings & Security', requiresAuth: true });
+  });
+
+  /* ---------------- Boot ---------------- */
+  await Store.refreshFromServer().catch(() => {}); // hydrate workspace before first paint when possible
   Router.init();
+
+  // Start appointment reminder engine once signed in
+  if (AuthManager.isLoggedIn()) {
+    ApiClient.startReminderEngine();
+  }
 });

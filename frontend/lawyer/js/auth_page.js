@@ -151,11 +151,14 @@ const AuthPage = {
   },
 
   handleSocialLogin(provider) {
-    Utils.showToast(`Connecting with ${provider} secure OAuth...`, 'info');
-    setTimeout(() => {
-      AuthManager._pendingUser = AuthManager.getDemoLawyer();
-      Router.navigate('/otp');
-    }, 600);
+    Utils.showModal(
+      `<p>Sign-in with ${provider} requires OAuth credentials that are not configured in this environment yet.</p>
+       <p>Please continue with your registered email or mobile and password — every other security step is fully active.</p>`,
+      {
+        title: `${provider} Sign-In Unavailable`,
+        actions: [{ text: 'Got it', class: 'btn btn-primary', onclick: 'Utils.hideModal()' }]
+      }
+    );
   },
 
   /* --------------------------------------------------------

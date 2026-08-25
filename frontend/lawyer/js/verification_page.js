@@ -1,66 +1,79 @@
 /* ============================================================
-   LEGALCONNECT — DOCUMENT VERIFICATION & FRAUD-PREVENTION ENGINE
-   verification_page.js — Points 8 to 15: Statutory Bar Verification, OCR Checks, Liveness, Fraud Risk
+   LEGALCONNECT — CREDENTIAL VERIFICATION PIPELINE
+   verification_page.js — Registry check → Document intake →
+   Identity confirmation → Risk screening → Outcome.
+   ------------------------------------------------------------
+   Honesty model: this build has NO official Bar Council feed,
+   OCR/AI engine, or biometric liveness provider connected.
+   Every stage therefore produces truthful states:
+     Verified | Information Mismatch | Unable to Verify |
+     Manual Verification Required | Submitted - Awaiting Review.
+   Nothing is auto-badged as authentic without a reviewer.
    ============================================================ */
 
 const VerificationPage = {
-  _stage: 1, // 1: Bar Council (Pt 8), 2: Doc Upload & OCR (Pts 9,10), 3: Liveness & Selfie (Pt 11), 4: Fraud Screening (Pts 12,13,14), 5: Result (Pt 15)
-  _documents: [
-    { id: 'doc_1', name: 'Bar Council Enrollment Certificate', type: 'Required', status: 'verified', file: 'Bar_Council_Enrollment_DL1234.pdf', ocr: 'Readability: 99% • DL/1234/2010 • Enrolled: 2010 • No Tampering Detected' },
-    { id: 'doc_2', name: 'Certificate of Practice (COP)', type: 'Required', status: 'verified', file: 'All_India_Bar_Exam_COP.pdf', ocr: 'Valid All India Bar Practice Standing' },
-    { id: 'doc_3', name: 'LLB Degree Certificate', type: 'Required', status: 'verified', file: 'LLB_Degree_DelhiUniversity.pdf', ocr: 'Institution: Faculty of Law, University of Delhi • Verified' },
-    { id: 'doc_4', name: 'Government Identity Proof (Aadhaar / Voter ID / Passport)', type: 'Required', status: 'verified', file: 'Govt_ID_Proof_Aadhaar.pdf', ocr: 'Biometric UIDAI Verification Matched' },
-    { id: 'doc_5', name: 'LLM Degree Certificate', type: 'Optional', status: 'uploaded', file: 'LLM_Specialization_Cert.pdf', ocr: 'LLM Criminal Jurisprudence Verified' },
-    { id: 'doc_6', name: 'Cyber Law Certification', type: 'Optional', status: 'uploaded', file: 'Cyber_Forensics_Cert.pdf', ocr: 'National Law School IT Act Diploma' },
-    { id: 'doc_7', name: 'Mediation & Arbitration Certification', type: 'Optional', status: 'pending', file: null, ocr: 'Click to upload certification' },
-    { id: 'doc_8', name: 'Other Professional Qualifications', type: 'Optional', status: 'pending', file: null, ocr: 'Click to upload other diplomas' }
+  _stage: 1,
+  _docs: [],
+  _barResult: null,
+  _summary: null,
+  _busy: { bar: false, upload: null, identity: false },
+
+  _slots: [
+    { key: 'bar_enrollment', name: 'Bar Council Enrollment Certificate', required: true },
+    { key: 'cop', name: 'Certificate of Practice', required: true },
+    { key: 'llb_degree', name: 'LLB Degree Certificate', required: true },
+    { key: 'govt_id', name: 'Government Identity Proof (Aadhaar / Passport / Voter ID)', required: true },
+    { key: 'llm', name: 'LLM Certificate', required: false },
+    { key: 'other_cert', name: 'Additional Certification (Mediation / Arbitration / Cyber Law)', required: false }
   ],
 
-  render() {
-    const lawyer = AuthManager.getSession() || AuthManager._pendingUser || AuthManager.getDemoLawyer();
+  reset() {
+    this._stage = 1;
+    this._docs = [];
+    this._barResult = null;
+    this._identitySubmitted = false;
+    sessionStorage.removeItem('lc_selfie_captured');
+    this._busy = { bar: false, upload: null, identity: false };
+  },
 
+  async onEnter() {
+    await this.loadDocs();
+    Router.transitionPage('/verification');
+  },
+
+  async loadDocs() {
+    try {
+      this._docs = await ApiClient.listDocuments();
+    } catch {
+      this._docs = [];
+    }
+  },
+
+  render() {
+    const lawyer = AuthManager.currentLawyer();
+    const steps = ['Bar Registry', 'Documents', 'Identity', 'Screening', 'Outcome'];
     return `
       <div class="fullscreen-page">
         <div class="fullscreen-card fullscreen-card-xl">
           <div class="page-header" style="margin-bottom:var(--space-4)">
             <div>
-              <h2 class="register-title">Advocate Statutory Verification Protocol</h2>
-              <p class="register-subtitle">Comprehensive Regulatory Compliance & Anti-Fraud Security Layer</p>
+              <h2 class="register-title">Credential Verification</h2>
+              <p class="register-subtitle">Confirm your credentials to earn the Verified Badge clients trust</p>
             </div>
-            <span class="badge badge-accent">Points 8–15 Engine</span>
           </div>
 
-          <!-- Multi-tier Stepper Indicator -->
           <div class="verification-progress">
-            <div class="register-stepper">
-              <div class="register-step ${this._stage >= 1 ? 'active' : ''} ${this._stage > 1 ? 'completed' : ''}">
-                <div class="register-step-circle">${this._stage > 1 ? '✓' : '1'}</div>
-                <div class="register-step-label">Bar Registry</div>
-              </div>
-              <div class="register-step-line"></div>
-              <div class="register-step ${this._stage >= 2 ? 'active' : ''} ${this._stage > 2 ? 'completed' : ''}">
-                <div class="register-step-circle">${this._stage > 2 ? '✓' : '2'}</div>
-                <div class="register-step-label">OCR & Credentials</div>
-              </div>
-              <div class="register-step-line"></div>
-              <div class="register-step ${this._stage >= 3 ? 'active' : ''} ${this._stage > 3 ? 'completed' : ''}">
-                <div class="register-step-circle">${this._stage > 3 ? '✓' : '3'}</div>
-                <div class="register-step-label">Liveness & Selfie</div>
-              </div>
-              <div class="register-step-line"></div>
-              <div class="register-step ${this._stage >= 4 ? 'active' : ''} ${this._stage > 4 ? 'completed' : ''}">
-                <div class="register-step-circle">${this._stage > 4 ? '✓' : '4'}</div>
-                <div class="register-step-label">Fraud Risk Screening</div>
-              </div>
-              <div class="register-step-line"></div>
-              <div class="register-step ${this._stage >= 5 ? 'active' : ''}">
-                <div class="register-step-circle">5</div>
-                <div class="register-step-label">Badge Issued</div>
-              </div>
+            <div class="register-stepper" role="list" aria-label="Verification progress">
+              ${steps.map((label, i) => `
+                ${i > 0 ? '<div class="register-step-line"></div>' : ''}
+                <div class="register-step ${this._stage >= i + 1 ? 'active' : ''} ${this._stage > i + 1 ? 'completed' : ''}" role="listitem">
+                  <div class="register-step-circle">${this._stage > i + 1 ? '✓' : (i + 1)}</div>
+                  <div class="register-step-label">${label}</div>
+                </div>
+              `).join('')}
             </div>
           </div>
 
-          <!-- Stage View Container -->
           <div id="verification-stage-content">
             ${this.renderStage(this._stage, lawyer)}
           </div>
@@ -77,369 +90,444 @@ const VerificationPage = {
     return this.renderStage5(lawyer);
   },
 
-  /* --------------------------------------------------------
-     POINT 8: Professional Registration Verification
-     -------------------------------------------------------- */
+  /* ---------------- Stage 1 · Bar registry check ---------------- */
   renderStage1(lawyer) {
+    const r = this._barResult;
     return `
       <div class="barcouncil-verify">
-        <h3 class="card-title">Point 8: Authoritative State Bar Council Verification</h3>
+        <h3 class="card-title">State Bar Council Registration Check</h3>
         <p class="text-body-sm text-muted mb-4">
-          Queries authoritative government Bar Council registry to verify registration validity, standing, and identity consistency.
+          We validate your enrollment number format and cross-check it against duplicate profiles on LegalConnect.
+          Confirmation of active standing is completed by our verification desk; an official Bar Council data feed is not yet connected to this platform.
         </p>
 
         <div class="form-group">
-          <label class="form-label">Bar Council Registration Number</label>
+          <label class="form-label" for="bc-num-input">Registration Number</label>
           <div class="verify-input-group">
-            <input type="text" id="bc-num-input" class="form-input" value="${lawyer.barCouncil || 'DL/1234/2010'}">
-            <button class="btn btn-primary" id="btn-verify-bc" onclick="VerificationPage.handleVerifyBarCouncil()">
-              <span class="material-symbols-rounded">verified</span> Query Bar Database
+            <input type="text" id="bc-num-input" class="form-input font-mono" value="${Utils.escapeHtml(lawyer.barCouncil || '')}" placeholder="e.g. DL/1234/2010" aria-describedby="bc-hint">
+            <button class="btn btn-primary" id="btn-verify-bc" onclick="VerificationPage.handleVerifyBarCouncil()" ${this._busy.bar ? 'disabled' : ''}>
+              ${this._busy.bar ? '<div class="loading-dots"><span></span><span></span><span></span></div> Checking' : '<span class="material-symbols-rounded">verified</span> Check Registration'}
             </button>
           </div>
-          <span class="form-hint">Checks: Registration Number Exists • Name Matches • State Matches • Enrollment Info Matches • Status Active</span>
+          <span class="form-hint" id="bc-hint">Checks: format &bull; state code &bull; year &bull; duplicate profiles</span>
         </div>
 
         <div id="bc-result-box">
-          <div class="verify-result info">
-            <span class="material-symbols-rounded">info</span>
-            <div>
-              <div class="verify-result-text">Registry Ready for Verification</div>
-              <div class="text-body-sm">Click 'Query Bar Database' to execute real-time statutory lookup.</div>
-            </div>
-          </div>
+          ${r ? this.barResultHtml(r) : `
+            <div class="verify-result info">
+              <span class="material-symbols-rounded">info</span>
+              <div>
+                <div class="verify-result-text">Ready when you are</div>
+                <div class="text-body-sm">Run the registration check to continue.</div>
+              </div>
+            </div>`}
         </div>
 
         <div class="d-flex justify-between mt-8">
-          <button class="btn btn-ghost" onclick="Router.navigate('/register')">← Back to Registration</button>
-          <button class="btn btn-primary btn-lg" onclick="VerificationPage.setStage(2)">
-            Next: Upload & OCR Check →
+          <button class="btn btn-ghost" onclick="Router.navigate('/login')">&larr; Back to sign-in</button>
+          <button class="btn btn-primary btn-lg" onclick="VerificationPage.setStage(2)" ${(r && r.blocking) ? 'disabled title="Resolve the registration issue first"' : ''}>
+            Next: Upload Credentials &rarr;
           </button>
         </div>
       </div>
     `;
   },
 
-  /* --------------------------------------------------------
-     POINTS 9 & 10: Upload Legal Credentials & OCR Authenticity Check
-     -------------------------------------------------------- */
-  renderStage2(lawyer) {
+  barResultHtml(r) {
+    const map = {
+      verified: { cls: 'success', icon: 'verified', title: 'Registry match confirmed', sub: 'Active standing confirmed by the verification desk.' },
+      manual_review: { cls: 'info', icon: 'hourglass_top', title: 'Submitted for desk confirmation', sub: r.message },
+      mismatch: { cls: 'error', icon: 'report', title: 'Information mismatch', sub: r.message },
+      unable: { cls: 'warning', icon: 'help', title: 'Unable to verify', sub: r.message },
+      error: { cls: 'error', icon: 'wifi_off', title: 'Lookup failed', sub: r.message }
+    };
+    const m = map[r.status] || map.unable;
+    return `
+      <div class="verify-result ${m.cls}">
+        <span class="material-symbols-rounded">${m.icon}</span>
+        <div>
+          <div class="verify-result-text">${m.title}</div>
+          <div class="text-body-sm">${Utils.escapeHtml(m.sub || '')}${r.source ? `<br><span style="opacity:.75;font-size:.72rem">${Utils.escapeHtml(r.source)}</span>` : ''}</div>
+        </div>
+      </div>`;
+  },
+
+  /* ---------------- Stage 2 · Credential documents ---------------- */
+  renderStage2(_lawyer) {
+    const uploadedKeys = new Set(this._docs.map(d => d.category));
+    const requiredDone = this._slots.filter(s => s.required).every(s => uploadedKeys.has(s.key));
     return `
       <div>
-        <div class="d-flex justify-between items-center mb-3">
-          <div>
-            <h3 class="card-title">Points 9 & 10: Legal Credentials & AI OCR Authenticity Analysis</h3>
-            <p class="text-body-sm text-muted">
-              4 Required Documents + 4 Optional Certifications. AI OCR verifies document integrity, fonts, dates & tampering markers.
-            </p>
-          </div>
-          <button class="btn btn-secondary btn-sm" onclick="VerificationPage.simulateScanAllDocs()">
-            <span class="material-symbols-rounded">scanner</span> Scan All with OCR
-          </button>
-        </div>
+        <h3 class="card-title">Upload Your Credentials</h3>
+        <p class="text-body-sm text-muted mb-3">
+          PDF, JPG, PNG or WEBP up to 10 MB. Files are stored securely and reviewed by the verification desk.
+          Automated document reading is not yet enabled on this platform, so uploads remain
+          <strong>&ldquo;Awaiting Review&rdquo;</strong> until a human reviewer confirms them.
+        </p>
 
         <div class="doc-upload-grid">
-          ${this._documents.map(doc => `
-            <div class="doc-upload-card ${doc.type.toLowerCase()} ${doc.file ? 'uploaded' : ''}" onclick="VerificationPage.simulateUploadDoc('${doc.id}')">
+          ${this._slots.map(slot => {
+            const docs = this._docs.filter(d => d.category === slot.key);
+            const latest = docs[0];
+            const busy = this._busy.upload === slot.key;
+            return `
+            <div class="doc-upload-card ${slot.required ? 'required' : 'optional'} ${latest ? 'uploaded' : ''}">
               <div class="doc-upload-icon">
-                <span class="material-symbols-rounded">${doc.file ? 'verified' : 'cloud_upload'}</span>
+                <span class="material-symbols-rounded">${latest ? 'task_alt' : 'cloud_upload'}</span>
               </div>
-              <div class="doc-upload-name">${doc.name}</div>
-              <div class="doc-upload-hint">${doc.file ? doc.file : 'Click to select PDF or Image'}</div>
-              <span class="doc-verification-badge ${doc.status === 'verified' ? 'verified' : doc.status === 'uploaded' ? 'verifying' : 'verifying'}">
-                ${doc.status === 'verified' ? '🟢 OCR Verified (100%)' : doc.status === 'uploaded' ? 'AI Analyzing...' : 'Pending Upload'}
-              </span>
-              <div class="text-label-sm mt-2" style="color:var(--color-gray-500);font-size:11px">${doc.ocr}</div>
-            </div>
-          `).join('')}
+              <div class="doc-upload-name">${slot.name}${slot.required ? ' <span class="required">*</span>' : ''}</div>
+              ${latest ? `
+                <div class="doc-upload-hint truncate" title="${Utils.escapeHtml(latest.originalName)}">${Utils.escapeHtml(latest.originalName)} &middot; ${(latest.sizeBytes / 1024).toFixed(0)} KB</div>
+                <span class="doc-verification-badge awaiting">Awaiting Review</span>
+                <div class="d-flex gap-2 mt-2">
+                  <a class="btn btn-ghost btn-sm" href="${ApiClient.documentDownloadUrl(latest.id)}" target="_blank" rel="noopener">View</a>
+                  <button class="btn btn-ghost btn-sm" style="color:var(--color-error)" onclick="VerificationPage.deleteDoc('${latest.id}')">Remove</button>
+                </div>
+              ` : `
+                <div class="doc-upload-hint">${slot.required ? 'Required for verification' : 'Optional'}</div>
+                <span class="doc-verification-badge pending">Pending upload</span>
+                <button class="btn btn-secondary btn-sm mt-2" onclick="document.getElementById('file-${slot.key}').click()" ${busy ? 'disabled' : ''}>
+                  ${busy ? '<div class="loading-dots"><span></span><span></span><span></span></div> Uploading' : 'Choose File'}
+                </button>
+              `}
+              <input type="file" id="file-${slot.key}" accept=".pdf,image/jpeg,image/png,image/webp" style="display:none"
+                     onchange="VerificationPage.uploadDoc('${slot.key}', this)">
+            </div>`;
+          }).join('')}
         </div>
 
         <div class="d-flex justify-between mt-8">
-          <button class="btn btn-secondary" onclick="VerificationPage.setStage(1)">← Back to Bar Registry</button>
-          <button class="btn btn-primary btn-lg" onclick="VerificationPage.setStage(3)">
-            Proceed to Identity Liveness Check →
+          <button class="btn btn-secondary" onclick="VerificationPage.setStage(1)">&larr; Back</button>
+          <button class="btn btn-primary btn-lg" onclick="VerificationPage.setStage(3)" ${requiredDone ? '' : 'disabled title="Upload all required documents first"'}>
+            Next: Identity Check &rarr;
           </button>
         </div>
       </div>
     `;
   },
 
-  /* --------------------------------------------------------
-     POINT 11: Identity Verification & Live Selfie Liveness Check
-     -------------------------------------------------------- */
-  renderStage3(lawyer) {
+  /* ---------------- Stage 3 · Identity confirmation ---------------- */
+  renderStage3(_lawyer) {
+    const idUploaded = this._docs.some(d => d.category === 'govt_id');
+    const selfieDone = sessionStorage.getItem('lc_selfie_captured') === '1';
     return `
       <div class="identity-verify">
-        <h3 class="card-title">Point 11: Identity Verification & Anti-Spoofing Liveness Check</h3>
-        <p class="text-body-sm text-muted">
-          Real-time biometric facial geometry mapping to confirm live human presence against submitted Government Identity Proof.
+        <h3 class="card-title">Identity Confirmation</h3>
+        <p class="text-body-sm text-muted mb-4">
+          Confirm that the government ID you uploaded belongs to you. This build does not include an automated
+          face-match or liveness service, so submissions are checked manually by the verification desk.
         </p>
 
-        <div class="selfie-capture" id="selfie-box">
-          <span class="material-symbols-rounded" id="selfie-icon">face</span>
-          <div class="selfie-overlay" id="selfie-overlay" style="display:none">
-            <span class="badge badge-accent">Scanning Facial Nodes...</span>
+        <div class="liveness-steps">
+          <div class="liveness-step ${idUploaded ? 'completed' : ''}" id="live-step-1">
+            <div class="liveness-step-icon"><span class="material-symbols-rounded">${idUploaded ? 'check' : 'close'}</span></div>
+            <div class="liveness-step-text">${idUploaded ? 'Government ID document received' : 'Government ID document missing'}</div>
+          </div>
+          <div class="liveness-step ${selfieDone ? 'completed' : ''}" id="live-step-2">
+            <div class="liveness-step-icon"><span class="material-symbols-rounded">${selfieDone ? 'check' : 'photo_camera'}</span></div>
+            <div class="liveness-step-text">${selfieDone ? 'Selfie capture recorded' : 'Capture a quick selfie'}</div>
+          </div>
+          <div class="liveness-step pending-manual" id="live-step-3">
+            <div class="liveness-step-icon"><span class="material-symbols-rounded">hourglass_top</span></div>
+            <div class="liveness-step-text">Manual face comparison by verification desk</div>
           </div>
         </div>
 
-        <div class="liveness-steps">
-          <div class="liveness-step completed" id="live-step-1">
-            <div class="liveness-step-icon"><span class="material-symbols-rounded">check</span></div>
-            <div class="liveness-step-text">1. Live Human Face Detected</div>
-          </div>
-          <div class="liveness-step completed" id="live-step-2">
-            <div class="liveness-step-icon"><span class="material-symbols-rounded">check</span></div>
-            <div class="liveness-step-text">2. Anti-Replay Liveness (99.8%)</div>
-          </div>
-          <div class="liveness-step completed" id="live-step-3">
-            <div class="liveness-step-icon"><span class="material-symbols-rounded">check</span></div>
-            <div class="liveness-step-text">3. Govt ID Facial Match (98.4%)</div>
-          </div>
+        <div class="ai-disclaimer mt-3">
+          <span class="material-symbols-rounded icon-sm">info</span>
+          <span>No biometric matching runs in this environment. Your selfie and ID are compared by a human reviewer; the status stays &ldquo;Manual Review Required&rdquo; until then.</span>
         </div>
 
         <div class="d-flex justify-between mt-6">
-          <button class="btn btn-secondary" onclick="VerificationPage.setStage(2)">← Back to Documents</button>
-          <button class="btn btn-primary btn-lg" id="btn-run-liveness" onclick="VerificationPage.runLivenessCheck()">
-            Execute Live Biometric Scan →
+          <button class="btn btn-secondary" onclick="VerificationPage.setStage(2)">&larr; Back to Documents</button>
+          <button class="btn btn-primary btn-lg" onclick="${selfieDone ? "VerificationPage.submitIdentity()" : "document.getElementById('selfie-input').click()"}" ${this._busy.identity ? 'disabled' : ''}>
+            ${this._busy.identity ? '<div class="loading-dots"><span></span><span></span><span></span></div> Submitting' : (selfieDone ? 'Submit Identity Confirmation &rarr;' : 'Capture Selfie')}
           </button>
         </div>
       </div>
     `;
   },
 
-  /* --------------------------------------------------------
-     POINTS 12, 13 & 14: Duplicate Check, Fraud Risk Assessment & Manual Review Fallback
-     -------------------------------------------------------- */
-  renderStage4(lawyer) {
+  /* ---------------- Stage 4 · Screening summary ---------------- */
+  async loadScreeningSummary() {
+    this._summary = await ApiClient.fetchVerificationSummary().catch(() => null);
+  },
+
+  renderStage4(_lawyer) {
+    const p = (this._summary && this._summary.pipeline) || {};
+    const stages = p.stages || {};
+    const fraudStatus = p.fraudStatus || 'low_risk';
+
+    const stageRows = [
+      ['Bar Council check', stages.barCouncil ? stages.barCouncil.status : 'pending'],
+      ['Credential documents (' + ((stages.documents && stages.documents.docsSubmitted) || 0) + ' submitted)', stages.documents ? stages.documents.status : 'pending'],
+      ['Identity confirmation', stages.identity ? stages.identity.status : 'not_started'],
+      ['Duplicate profile scan', stages.duplicate ? stages.duplicate.status : 'clear']
+    ];
+
+    const statusBadge = (status) => {
+      const map = {
+        verified: ['badge-success', 'Verified'],
+        clear: ['badge-success', 'Clear'],
+        manual_verification_required: ['badge-warning', 'Manual review'],
+        submitted_awaiting_review: ['badge-warning', 'Awaiting review'],
+        pending: ['badge-warning', 'Pending'],
+        not_started: ['badge-neutral', 'Not started'],
+        information_mismatch: ['badge-danger', 'Mismatch'],
+        collision_found: ['badge-danger', 'Collision found'],
+        completed: ['badge-success', 'Completed'],
+        required: ['badge-warning', 'Required']
+      };
+      const m = map[status] || ['badge-neutral', Utils.escapeHtml(status)];
+      return `<span class="badge ${m[0]}">${m[1]}</span>`;
+    };
+
+    const fraudLabel = fraudStatus === 'high_risk_verification_failed'
+      ? ['High Risk — Verification Failed', 'var(--color-error)']
+      : fraudStatus === 'medium_risk_manual_review'
+        ? ['Medium Risk — Manual Review', 'var(--color-gold-dark)']
+        : ['Low Risk', 'var(--color-success-dark)'];
+
     return `
       <div>
-        <h3 class="card-title">Points 12, 13 & 14: Multi-Identifier Duplicate & Fraud Risk Screening</h3>
+        <h3 class="card-title">Fraud Prevention Screening</h3>
         <p class="text-body-sm text-muted mb-4">
-          Automated multi-vector risk engine compares Bar Council ID, Phone, Email, and Government ID cryptographic hashes.
+          Every application passes through layered checks before a Verified Badge is granted.
+          Internal risk details are intentionally summarised here; sensitive signals are visible only to the security desk.
         </p>
 
         <div class="grid-2 mb-6">
-          <!-- Duplicate Check Matrix (Point 12) -->
           <div class="card">
             <h4 class="card-title mb-3 d-flex items-center gap-2">
-              <span class="material-symbols-rounded text-success">fingerprint</span> Duplicate Identity Cross-Check
+              <span class="material-symbols-rounded text-success">fingerprint</span> Duplicate &amp; Integrity Checks
             </h4>
             <div class="data-table">
-              <table>
-                <tbody>
-                  <tr>
-                    <td>Bar Council No. (DL/1234/2010)</td>
-                    <td><span class="badge badge-success">Unique • No Prior Association</span></td>
-                  </tr>
-                  <tr>
-                    <td>Verified Mobile (+91 9876543210)</td>
-                    <td><span class="badge badge-success">Unique • Zero Collisions</span></td>
-                  </tr>
-                  <tr>
-                    <td>Govt ID Biometric Hash</td>
-                    <td><span class="badge badge-success">Authentic Master Identity</span></td>
-                  </tr>
-                </tbody>
-              </table>
+              <table><tbody>
+                ${stageRows.map(([label, status]) => `
+                  <tr><td>${label}</td><td style="text-align:right">${statusBadge(status)}</td></tr>
+                `).join('')}
+              </tbody></table>
             </div>
           </div>
 
-          <!-- Fraud Risk Assessment (Point 13) -->
           <div class="card">
             <h4 class="card-title mb-3 d-flex items-center gap-2">
-              <span class="material-symbols-rounded text-accent">shield</span> Fraud Risk Assessment Score
+              <span class="material-symbols-rounded text-accent">shield</span> Application Assessment
             </h4>
             <div class="p-4" style="background:var(--color-gray-50);border-radius:var(--radius-lg)">
               <div class="d-flex justify-between items-center mb-2">
-                <span class="font-semibold text-body-md">Assessed Risk Rating:</span>
-                <span class="risk-indicator risk-low">🟢 Low Risk (Score: 99.4/100)</span>
+                <span class="font-semibold text-body-md">Internal risk rating:</span>
+                <strong style="color:${fraudLabel[1]}">${fraudLabel[0]}</strong>
               </div>
               <p class="text-body-sm text-muted">
-                Passed 12 of 12 regulatory fraud filters. Integrity confirmed for automatic verified badge grant.
+                Applications rated medium or high are reviewed personally by the verification desk before any badge is issued.
+                Automatic approval never applies when a duplicate registration number is detected.
               </p>
-            </div>
-
-            <!-- Manual Verification Simulation Button (Point 14) -->
-            <div class="mt-4 pt-3 border-t">
-              <div class="d-flex justify-between items-center">
-                <span class="text-body-sm text-muted">Admin Verification Team Fallback Pipeline:</span>
-                <button class="btn btn-ghost btn-sm" onclick="VerificationPage.simulateAdminManualReview()">
-                  Simulate Admin Manual Review (Pt 14)
-                </button>
-              </div>
             </div>
           </div>
         </div>
 
         <div class="d-flex justify-between mt-8">
-          <button class="btn btn-secondary" onclick="VerificationPage.setStage(3)">← Back to Liveness</button>
-          <button class="btn btn-primary btn-lg" onclick="VerificationPage.setStage(5)">
-            Grant Verified Advocate Status (Point 15) →
-          </button>
+          <button class="btn btn-secondary" onclick="VerificationPage.setStage(3)">&larr; Back</button>
+          <button class="btn btn-primary btn-lg" onclick="VerificationPage.setStage(5)">See Outcome &rarr;</button>
         </div>
       </div>
     `;
   },
 
-  /* --------------------------------------------------------
-     POINT 15: Verification Result & Verified Lawyer Badge
-     -------------------------------------------------------- */
-  renderStage5(lawyer) {
-    const verificationId = 'LC-VER-2026-9882';
-    const verificationDate = Utils.formatDate(new Date(), 'long');
+  /* ---------------- Stage 5 · Outcome ---------------- */
+  renderStage5(_lawyer) {
+    const lawyer = Store.getState('lawyerProfile') || AuthManager.currentLawyer();
+    const status = lawyer.verificationStatus || 'pending';
+    const summary = this._summary;
 
+    if (status === 'verified') return this.verifiedOutcome(lawyer);
+
+    if (status === 'rejected' || status === 'info_mismatch') {
+      return `
+        <div class="verification-result">
+          <div class="result-icon error"><span class="material-symbols-rounded">report</span></div>
+          <h2 class="result-title" style="color:var(--color-error)">Verification Not Approved</h2>
+          <p class="text-body-md text-muted mb-4">
+            Your application could not be approved in its current form. Upload corrected documents,
+            or contact support@legalconnect.in for assistance.
+          </p>
+          <div class="d-flex justify-center gap-4 mt-6 flex-wrap">
+            <button class="btn btn-secondary btn-lg" onclick="VerificationPage.reset(); VerificationPage.loadDocs().then(()=>Router.transitionPage('/verification'));">Upload Corrected Documents</button>
+            <button class="btn btn-primary btn-lg" onclick="Router.navigate('/dashboard')">Continue to Dashboard</button>
+          </div>
+        </div>`;
+    }
+
+    const docsCount = (summary && summary.pipeline && summary.pipeline.stages.documents && summary.pipeline.stages.documents.docsSubmitted) || this._docs.length;
+    const requiredCount = this._slots.filter(s => s.required).length;
     return `
       <div class="verification-result">
-        <div class="result-icon success">
-          <span class="material-symbols-rounded">verified</span>
+        <div class="result-icon" style="background:rgba(245,158,11,.12);color:var(--color-gold-dark)">
+          <span class="material-symbols-rounded">hourglass_top</span>
         </div>
-
-        <h2 class="result-title success">🟢 VERIFIED ADVOCATE BADGE ISSUED</h2>
+        <h2 class="result-title" style="color:var(--color-gold-dark)">Verification In Progress</h2>
         <p class="text-body-md text-muted mb-4">
-          Point 15: Your lawyer profile is fully verified, activated, and made discoverable to prospective clients.
+          Your submission is queued with the verification desk. You'll receive a notification the moment your badge is decided.
         </p>
 
         <div class="result-details">
           <div class="result-detail-row">
             <span class="result-detail-label">Advocate Name</span>
-            <span class="result-detail-value">${lawyer.fullName || 'Adv. Rajesh Kumar Sharma'}</span>
+            <span class="result-detail-value">${Utils.escapeHtml(lawyer.fullName || '')}</span>
           </div>
           <div class="result-detail-row">
             <span class="result-detail-label">Bar Council Registration</span>
-            <span class="result-detail-value font-mono">${lawyer.barCouncil || 'DL/1234/2010'}</span>
+            <span class="result-detail-value font-mono">${Utils.escapeHtml(lawyer.barCouncil || '')}</span>
+          </div>
+          <div class="result-detail-row">
+            <span class="result-detail-label">Documents Submitted</span>
+            <span class="result-detail-value">${docsCount} of ${requiredCount} required</span>
+          </div>
+          <div class="result-detail-row">
+            <span class="result-detail-label">Current Status</span>
+            <span class="result-detail-value"><span class="badge badge-warning">${status === 'pending' ? 'Pending Review' : 'Action Required'}</span></span>
+          </div>
+        </div>
+
+        <div class="ai-disclaimer mt-3">
+          <span class="material-symbols-rounded icon-sm">info</span>
+          <span>You can continue building your profile while verification is in progress. The public Verified Badge appears only after approval.</span>
+        </div>
+
+        <div class="d-flex justify-center gap-4 mt-6 flex-wrap">
+          <button class="btn btn-secondary btn-lg" onclick="VerificationPage.setStage(2)">Manage Documents</button>
+          <button class="btn btn-primary btn-lg" onclick="Router.navigate('/profile')">Complete Portfolio &rarr;</button>
+        </div>
+      </div>`;
+  },
+
+  verifiedOutcome(lawyer) {
+    return `
+      <div class="verification-result">
+        <div class="result-icon success"><span class="material-symbols-rounded">verified</span></div>
+        <h2 class="result-title success" style="color:var(--color-success-dark)">Verified Advocate</h2>
+        <p class="text-body-md text-muted mb-4">
+          Your profile is verified and discoverable to clients with the Verified Badge.
+        </p>
+
+        <div class="result-details">
+          <div class="result-detail-row">
+            <span class="result-detail-label">Advocate Name</span>
+            <span class="result-detail-value">${Utils.escapeHtml(lawyer.fullName || '')}</span>
+          </div>
+          <div class="result-detail-row">
+            <span class="result-detail-label">Bar Council Registration</span>
+            <span class="result-detail-value font-mono">${Utils.escapeHtml(lawyer.barCouncil || '')}</span>
           </div>
           <div class="result-detail-row">
             <span class="result-detail-label">Lawyer Verification ID</span>
-            <span class="result-detail-value font-mono" style="color:var(--color-accent)">${verificationId}</span>
+            <span class="result-detail-value font-mono" style="color:var(--color-accent)">${Utils.escapeHtml(lawyer.verificationId || '—')}</span>
           </div>
           <div class="result-detail-row">
-            <span class="result-detail-label">Statutory Verification Status</span>
-            <span class="result-detail-value"><span class="badge badge-success">ACTIVE & VERIFIED</span></span>
+            <span class="result-detail-label">Verified On</span>
+            <span class="result-detail-value">${lawyer.verificationDate ? Utils.formatDate(lawyer.verificationDate, 'long') : '—'}</span>
           </div>
           <div class="result-detail-row">
-            <span class="result-detail-label">Verification Timestamp</span>
-            <span class="result-detail-value">${verificationDate}</span>
+            <span class="result-detail-label">Public Badge Status</span>
+            <span class="result-detail-value"><span class="badge badge-success">Active &amp; Verified</span></span>
           </div>
         </div>
 
-        <div class="d-flex justify-center gap-4 mt-6">
-          <button class="btn btn-secondary btn-lg" onclick="Utils.showToast('Official Digital Certificate of Verification downloaded.', 'success')">
-            <span class="material-symbols-rounded">download</span> Download Verification Certificate
-          </button>
-          <button class="btn btn-primary btn-lg" onclick="VerificationPage.completeAndGoDashboard()">
-            Complete Portfolio & Enter Dashboard →
-          </button>
+        <div class="d-flex justify-center gap-4 mt-6 flex-wrap">
+          <button class="btn btn-secondary btn-lg" onclick="Router.navigate('/settings/tab/notifications')">View Verification Record</button>
+          <button class="btn btn-primary btn-lg" onclick="Router.navigate('/dashboard')">Enter Dashboard &rarr;</button>
         </div>
-      </div>
-    `;
+      </div>`;
   },
 
-  /* Handlers */
+  /* ---------------- Handlers ---------------- */
   async handleVerifyBarCouncil() {
-    const num = document.getElementById('bc-num-input').value.trim();
-    const btn = document.getElementById('btn-verify-bc');
-    const resultBox = document.getElementById('bc-result-box');
-
-    btn.disabled = true;
-    btn.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div> Querying...';
-
-    const res = await ApiClient.verifyBarCouncil(num);
-
-    btn.disabled = false;
-    btn.innerHTML = '<span class="material-symbols-rounded">verified</span> Query Bar Database';
-
-    if (res.status === 'verified') {
-      resultBox.innerHTML = `
-        <div class="verify-result success">
-          <span class="material-symbols-rounded">verified</span>
-          <div>
-            <div class="verify-result-text">Official Registry Match: ${res.enrollmentName} (Active Standing)</div>
-            <div class="text-body-sm">${res.state} • Enrolled: ${res.year} • Bar Council Status: ACTIVE • Point 8 Passed</div>
-          </div>
-        </div>
-      `;
-      Utils.showToast('Bar Council database lookup confirmed active standing.', 'success');
-    } else {
-      resultBox.innerHTML = `
-        <div class="verify-result error">
-          <span class="material-symbols-rounded">warning</span>
-          <div class="verify-result-text">${res.message}</div>
-        </div>
-      `;
+    const input = document.getElementById('bc-num-input');
+    const num = (input ? input.value : '').trim();
+    if (!num) {
+      Utils.showToast('Enter your registration number first.', 'warning');
+      return;
     }
-  },
+    this._busy.bar = true;
+    Router.transitionPage('/verification');
 
-  simulateUploadDoc(docId) {
-    const doc = this._documents.find(d => d.id === docId);
-    if (doc) {
-      doc.file = `${doc.name.replace(/\s+/g, '_')}_OfficialScan.pdf`;
-      doc.status = 'verified';
-      doc.ocr = 'OCR Readability: 99.6% • Authenticity Confirmed';
-      Utils.showToast(`OCR Engine analyzed ${doc.name}: 100% Match with Registration data.`, 'success');
-      Router.transitionPage('/verification');
-    }
-  },
+    const res = await ApiClient.lookupBarCouncil(num);
+    this._busy.bar = false;
+    res.blocking = (res.status === 'mismatch');
+    this._barResult = res;
 
-  simulateScanAllDocs() {
-    this._documents.forEach(d => {
-      d.file = `${d.name.replace(/\s+/g, '_')}_Scan.pdf`;
-      d.status = 'verified';
-      d.ocr = 'AI OCR: 100% Match • No tampering markers';
-    });
-    Utils.showToast('All statutory credentials scanned and OCR authenticated.', 'success');
+    if (res.status === 'verified') Utils.showToast('Registration check passed.', 'success');
+    else if (res.status === 'manual_review') Utils.showToast('Submitted to the verification desk for confirmation.', 'info');
+    else Utils.showToast(res.message || 'The check could not confirm this registration.', 'warning');
+
     Router.transitionPage('/verification');
   },
 
-  async runLivenessCheck() {
-    const btn = document.getElementById('btn-run-liveness');
-    const selfie = document.getElementById('selfie-box');
-    const overlay = document.getElementById('selfie-overlay');
+  async uploadDoc(slotKey, inputEl) {
+    const file = inputEl.files[0];
+    if (!file) return;
+    if (file.size > 10 * 1024 * 1024) {
+      Utils.showToast('File exceeds the 10 MB limit.', 'error');
+      inputEl.value = '';
+      return;
+    }
+    const slot = this._slots.find(s => s.key === slotKey);
+    this._busy.upload = slotKey;
+    Router.transitionPage('/verification');
+    try {
+      await ApiClient.uploadDocument(file, slotKey, slot.name);
+      await this.loadDocs();
+      Utils.showToast(`${slot.name}: uploaded and queued for review.`, 'success');
+    } catch (err) {
+      Utils.showToast(err.message || 'Upload failed.', 'error');
+    }
+    this._busy.upload = null;
+    Router.transitionPage('/verification');
+  },
 
-    btn.disabled = true;
-    btn.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div> Analyzing Biometrics...';
-    if (selfie) selfie.classList.add('capturing');
-    if (overlay) overlay.style.display = 'flex';
+  async deleteDoc(docId) {
+    const ok = await Utils.showConfirm('Remove Document', 'This uploaded file will be removed from your verification record.', { confirmText: 'Remove', type: 'danger' });
+    if (!ok) return;
+    const done = await ApiClient.deleteDocument(docId);
+    if (done) {
+      await this.loadDocs();
+      Utils.showToast('Document removed.', 'info');
+    } else {
+      Utils.showToast('Could not remove the document.', 'error');
+    }
+    Router.transitionPage('/verification');
+  },
 
-    await ApiClient.verifyLiveness();
-    if (selfie) selfie.classList.remove('capturing');
-    if (overlay) overlay.style.display = 'none';
+  handleSelfie(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    sessionStorage.setItem('lc_selfie_captured', '1');
+    Utils.showToast('Selfie captured. It will be compared with your ID by a human reviewer.', 'success');
+    Router.transitionPage('/verification');
+  },
 
-    Utils.showToast('Point 11: Liveness and ID face match confirmed (98.4% confidence score).', 'success');
+  async submitIdentity() {
+    this._busy.identity = true;
+    Router.transitionPage('/verification');
+    const selfieDone = sessionStorage.getItem('lc_selfie_captured') === '1';
+    const idUploaded = this._docs.some(d => d.category === 'govt_id');
+    await ApiClient.submitIdentityCheck(selfieDone, idUploaded);
+    this._busy.identity = false;
+    Utils.showToast('Identity confirmation submitted for manual review.', 'success');
     this.setStage(4);
   },
 
-  simulateAdminManualReview() {
-    Utils.showModal(`
-      <p class="text-body-md text-muted mb-4">
-        Simulates the Admin Verification Team portal (Point 14) reviewing uploaded certificates, Bar Council lookup results, and duplicate checks.
-      </p>
-      <div class="p-4" style="background:var(--color-gray-50);border-radius:var(--radius-md);margin-bottom:var(--space-4)">
-        <div><strong>Applicant:</strong> Adv. Rajesh Kumar Sharma</div>
-        <div><strong>Bar No:</strong> DL/1234/2010</div>
-        <div><strong>Admin Finding:</strong> All documentation authentic and verified without collisions.</div>
-      </div>
-    `, {
-      title: 'Admin Verification Console (Point 14)',
-      actions: [
-        { text: 'Request More Docs', class: 'btn btn-secondary', onclick: 'Utils.hideModal(); Utils.showToast("Additional documents requested.", "info");' },
-        { text: 'Approve Profile', class: 'btn btn-primary', onclick: 'Utils.hideModal(); VerificationPage.setStage(5);' }
-      ]
-    });
-  },
-
-  setStage(stage) {
+  async setStage(stage) {
+    if (stage === 4) await this.loadScreeningSummary();
+    if (stage === 5) await this.loadScreeningSummary();
+    // Refresh lawyer status from server so outcome reflects reality
+    if (stage === 5) await Store.refreshFromServer().catch(() => {});
     this._stage = stage;
     Router.transitionPage('/verification');
   },
 
   completeAndGoDashboard() {
-    const session = AuthManager.getSession() || AuthManager.setSession(AuthManager._pendingUser || AuthManager.getDemoLawyer());
-    session.verified = true;
-    session.verificationStatus = 'verified';
-    session.verificationId = 'LC-VER-2026-9882';
-    session.verificationDate = new Date().toISOString();
-    AuthManager.setSession(session);
-
-    Utils.showToast('🟢 Advocate Profile Activated with Verified Lawyer Badge!', 'success');
     Router.navigate('/profile');
   }
 };

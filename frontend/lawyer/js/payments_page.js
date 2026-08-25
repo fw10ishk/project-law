@@ -1,6 +1,7 @@
 /* ============================================================
    LEGALCONNECT — EARNINGS & PAYMENTS
-   payments_page.js — Consultation payments, fee split & transaction ledger
+   payments_page.js — Fee split transparency, earnings summary,
+   settlement ledger with real CSV export.
    ============================================================ */
 
 const PaymentsPage = {
@@ -14,90 +15,73 @@ const PaymentsPage = {
     const contentHtml = `
       <div class="page-header">
         <div class="page-header-left">
-          <h2 class="page-title">Earnings & Settlement Ledger</h2>
-          <p class="page-subtitle">Detailed breakdown of consultation fees, platform deductions & payout history</p>
+          <h2 class="page-title">Earnings & Settlements</h2>
+          <p class="page-subtitle">Consultation fees, platform deductions and payout history</p>
         </div>
-
-        <button class="btn btn-secondary" onclick="Utils.showToast('Generating financial statement CSV export...', 'info')">
+        <button class="btn btn-secondary" onclick="PaymentsPage.exportCsv()" ${txns.length === 0 ? 'disabled' : ''}>
           <span class="material-symbols-rounded">download</span> Export Statement
         </button>
       </div>
 
-      <!-- 4 Earnings Stat Cards -->
+      <!-- Earnings overview -->
       <div class="earnings-overview">
         <div class="earnings-card">
-          <div class="earnings-card-title">Today's Net Earnings</div>
-          <div class="earnings-card-value">${Utils.formatCurrency(todayEarned || 2250)}</div>
-          <div class="earnings-card-trend"><span class="material-symbols-rounded icon-sm">trending_up</span> 2 consultations completed</div>
+          <div class="earnings-card-title">Today</div>
+          <div class="earnings-card-value">${Utils.formatCurrency(todayEarned)}</div>
+          <div class="earnings-card-trend"><span class="material-symbols-rounded icon-sm">today</span> Net of platform fee</div>
         </div>
-
         <div class="earnings-card">
           <div class="earnings-card-title">This Week</div>
-          <div class="earnings-card-value">${Utils.formatCurrency(weeklyEarned || 14850)}</div>
-          <div class="earnings-card-trend"><span class="material-symbols-rounded icon-sm">trending_up</span> +12% vs last week</div>
+          <div class="earnings-card-value">${Utils.formatCurrency(weeklyEarned)}</div>
+          <div class="earnings-card-trend"><span class="material-symbols-rounded icon-sm">date_range</span> Net earnings</div>
         </div>
-
         <div class="earnings-card">
           <div class="earnings-card-title">This Month</div>
-          <div class="earnings-card-value">${Utils.formatCurrency(monthlyEarned || 68400)}</div>
-          <div class="earnings-card-trend"><span class="material-symbols-rounded icon-sm">trending_up</span> On track for record month</div>
+          <div class="earnings-card-value">${Utils.formatCurrency(monthlyEarned)}</div>
+          <div class="earnings-card-trend"><span class="material-symbols-rounded icon-sm">calendar_month</span> Settled transactions</div>
         </div>
-
         <div class="earnings-card">
-          <div class="earnings-card-title">Total Lifetime Earnings</div>
-          <div class="earnings-card-value">${Utils.formatCurrency(totalEarned || 248000)}</div>
-          <div class="earnings-card-trend"><span class="material-symbols-rounded icon-sm">verified</span> Verified Direct Payouts</div>
+          <div class="earnings-card-title">Lifetime</div>
+          <div class="earnings-card-value">${Utils.formatCurrency(totalEarned)}</div>
+          <div class="earnings-card-trend"><span class="material-symbols-rounded icon-sm">verified</span> All completed payouts</div>
         </div>
       </div>
 
-      <!-- Fee Breakdown Example Demonstration Card -->
+      <!-- Transparent fee model -->
       <div class="fee-breakdown-card">
-        <h4 class="card-title mb-3">Transparent Fee Structure Model</h4>
-        <div class="breakdown-row">
-          <span>Standard Consultation Fee (Paid by Client)</span>
-          <span>₹1,000</span>
-        </div>
-        <div class="breakdown-row">
-          <span>Platform Security & Virtual Room Infrastructure Fee (10%)</span>
-          <span style="color:var(--color-error)">- ₹100</span>
-        </div>
-        <div class="breakdown-row total">
-          <span>Direct Advocate Earnings (Automated Bank Transfer)</span>
-          <span style="color:var(--color-accent);font-size:18px">₹900 (90%)</span>
-        </div>
+        <h4 class="card-title mb-3">How the Fee Split Works</h4>
+        <div class="breakdown-row"><span>Consultation fee paid by client</span><span>100%</span></div>
+        <div class="breakdown-row"><span>Platform & virtual room infrastructure fee</span><span style="color:var(--color-error)">− 10%</span></div>
+        <div class="breakdown-row total"><span>Your net earning per consultation</span><span style="color:var(--color-accent);font-size:18px">90%</span></div>
+        <p class="text-body-sm text-muted mt-2">Payouts settle to your registered bank account. Payment gateway integration is pending deployment; entries below track the ledger.</p>
       </div>
 
-      <!-- Transactions Ledger Table -->
+      <!-- Transactions ledger -->
       <div class="transactions-container">
         <div class="transactions-header">
-          <h3 class="card-title">Consultation Settlements & Payout History</h3>
-          <span class="badge badge-accent">${txns.length} Transactions</span>
+          <h3 class="card-title">Settlement History</h3>
+          <span class="badge badge-accent">${txns.length} transaction${txns.length === 1 ? '' : 's'}</span>
         </div>
 
-        <div class="data-table">
+        ${txns.length === 0 ? Components.emptyState('receipt_long', 'No transactions yet', 'Completed consultations will create ledger entries here automatically.') : `
+        <div class="data-table table-scroll-x">
           <table>
             <thead>
               <tr>
-                <th>Client Name</th>
-                <th>Legal Service</th>
-                <th>Date & Time</th>
-                <th>Gross Paid</th>
-                <th>Platform Fee</th>
-                <th>Net Advocate Earning</th>
-                <th>Status</th>
+                <th>Client</th><th>Service</th><th>Date</th><th>Gross</th><th>Platform Fee</th><th>Net Earning</th><th>Status</th>
               </tr>
             </thead>
             <tbody>
-              ${txns.slice(0, 10).map(t => `
+              ${txns.slice(0, 15).map(t => `
                 <tr>
-                  <td><strong>${t.clientName}</strong></td>
-                  <td>${t.service}</td>
+                  <td><strong>${Utils.escapeHtml(t.clientName)}</strong></td>
+                  <td>${Utils.escapeHtml(t.service)}</td>
                   <td>${Utils.formatDate(t.date)}</td>
                   <td>${Utils.formatCurrency(t.amount)}</td>
-                  <td style="color:var(--color-gray-500)">- ${Utils.formatCurrency(t.platformFee)}</td>
+                  <td style="color:var(--color-gray-500)">− ${Utils.formatCurrency(t.platformFee)}</td>
                   <td class="txn-amount-positive">${Utils.formatCurrency(t.netEarnings)}</td>
                   <td>
-                    <span class="badge ${t.paymentStatus === 'completed' ? 'badge-success' : 'badge-warning'}">
+                    <span class="badge ${t.paymentStatus === 'completed' ? 'badge-success' : t.paymentStatus === 'pending' ? 'badge-warning' : 'badge-info'}">
                       ${t.paymentStatus.toUpperCase()}
                     </span>
                   </td>
@@ -105,10 +89,19 @@ const PaymentsPage = {
               `).join('')}
             </tbody>
           </table>
-        </div>
+        </div>`}
       </div>
     `;
 
     return Components.AppLayout(contentHtml, 'payments', 'Earnings & Payments', ['Payments']);
+  },
+
+  async exportCsv() {
+    try {
+      await ApiClient.exportPaymentsCsv();
+      Utils.showToast('Statement downloaded.', 'success');
+    } catch (err) {
+      Utils.showToast(err.message || 'Export failed.', 'error');
+    }
   }
 };

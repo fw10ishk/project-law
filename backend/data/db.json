@@ -1,0 +1,1788 @@
+{
+ "meta": {
+  "version": 2,
+  "createdAt": "2026-08-24T19:18:51.319Z"
+ },
+ "users": [
+  {
+   "id": "law_demo_001",
+   "role": "lawyer",
+   "fullName": "Adv. Rajesh Kumar Sharma",
+   "professionalName": "Adv. R.K. Sharma",
+   "email": "demo@legalconnect.in",
+   "phone": "9876543210",
+   "phoneNormalized": "9876543210",
+   "emailHash": "0cf92c16240b23f5cb9e99a43a1b5adc",
+   "phoneHash": "7619ee8cea49187f309616e30ecf54be",
+   "passwordHash": "$2a$10$xIYRhXBdRkyoqSFYSMEemeYGpbQxdXRFMBH73MJjYAAtIL/Ms9H0y",
+   "gender": "Male",
+   "dob": "1985-03-15",
+   "address": "42, Connaught Place, Central Delhi",
+   "city": "New Delhi",
+   "state": "Delhi",
+   "profilePhoto": null,
+   "barCouncil": "DL/1234/2010",
+   "barNumberHash": "04c73c104a2b7aaba7e9cbe03a1dde4e",
+   "stateBarCouncil": "Bar Council of Delhi",
+   "enrollmentDate": "2010-09-15",
+   "enrollmentYear": "2010",
+   "qualification": "LLB (Hons), LLM",
+   "university": "Faculty of Law, University of Delhi",
+   "yearsOfPractice": 14,
+   "practiceType": "Independent Advocate & Litigation Counsel",
+   "primarySpecialization": "Criminal Law",
+   "additionalSpecializations": [
+    "Civil Law",
+    "Cyber Law",
+    "Constitutional Law"
+   ],
+   "courts": [
+    "Supreme Court of India",
+    "High Court of Delhi",
+    "District & Sessions Courts"
+   ],
+   "languages": [
+    "English",
+    "Hindi"
+   ],
+   "bio": "A seasoned criminal law practitioner with over 14 years of experience handling complex criminal, civil, and cyber law matters. Successfully represented clients before the Supreme Court and various High Courts across India.",
+   "accountStatus": "active",
+   "verificationStatus": "verified",
+   "verificationId": "LC-VER-2024-0001",
+   "verificationDate": "2024-01-20",
+   "rating": 4.8,
+   "totalReviews": 127,
+   "profileDeactivated": false,
+   "sensitiveActionsLockedUntil": null,
+   "createdAt": "2024-01-10T09:00:00.000Z"
+  },
+  {
+   "id": "adm_001",
+   "role": "admin",
+   "fullName": "Verification Desk",
+   "email": "admin@legalconnect.in",
+   "passwordHash": "$2a$10$eH.cyy2ipwlneomGG.d2gu6PlYWfEHH5JNhBuDY/KYmEO1KrX78/G",
+   "accountStatus": "active",
+   "createdAt": "2026-08-24T19:18:51.703Z"
+  }
+ ],
+ "otpChallenges": [],
+ "sessions": [],
+ "trustedDevices": [],
+ "loginActivity": [],
+ "verificationRecords": [],
+ "documents": [],
+ "adminActions": [],
+ "fraudRiskRecords": [],
+ "workspace": {
+  "law_demo_001": {
+   "clients": [
+    {
+     "id": "cli_1",
+     "name": "Rahul Verma",
+     "email": "rahul.verma@example.com",
+     "phone": "9676597010",
+     "avatar": null,
+     "caseCategory": "Defamation",
+     "briefProblem": "False statements are being made against me publicly and I want to file a defamation case.",
+     "preferredDate": "2026-09-01",
+     "preferredTime": "10:00 AM",
+     "consultationType": "Chat",
+     "estimatedFee": 500,
+     "documents": [
+      {
+       "name": "ID_Proof.pdf",
+       "type": "ID Proof",
+       "size": "1.2 MB"
+      },
+      {
+       "name": "Property_Document.pdf",
+       "type": "Property Document",
+       "size": "3.5 MB"
+      },
+      {
+       "name": "Agreement_Copy.pdf",
+       "type": "Agreement",
+       "size": "2.1 MB"
+      }
+     ],
+     "status": "pending",
+     "createdAt": "2026-08-12T19:18:51.705Z"
+    },
+    {
+     "id": "cli_2",
+     "name": "Priya Sharma",
+     "email": "priya.sharma@example.com",
+     "phone": "7879261973",
+     "avatar": null,
+     "caseCategory": "Insurance Claim",
+     "briefProblem": "My insurance claim has been wrongfully rejected despite meeting all policy conditions.",
+     "preferredDate": "2026-09-07",
+     "preferredTime": "10:00 AM",
+     "consultationType": "Audio Call",
+     "estimatedFee": 1500,
+     "documents": [
+      {
+       "name": "ID_Proof.pdf",
+       "type": "ID Proof",
+       "size": "1.2 MB"
+      },
+      {
+       "name": "Property_Document.pdf",
+       "type": "Property Document",
+       "size": "3.5 MB"
+      }
+     ],
+     "status": "pending",
+     "createdAt": "2026-07-27T19:18:51.705Z"
+    },
+    {
+     "id": "cli_3",
+     "name": "Amit Patel",
+     "email": "amit.patel@example.com",
+     "phone": "9293572271",
+     "avatar": null,
+     "caseCategory": "Employment Dispute",
+     "briefProblem": "I was terminated from my job without proper notice and due process. I need legal advice.",
+     "preferredDate": "2026-09-06",
+     "preferredTime": "5:00 PM",
+     "consultationType": "Chat",
+     "estimatedFee": 2000,
+     "documents": [
+      {
+       "name": "ID_Proof.pdf",
+       "type": "ID Proof",
+       "size": "1.2 MB"
+      },
+      {
+       "name": "Property_Document.pdf",
+       "type": "Property Document",
+       "size": "3.5 MB"
+      },
+      {
+       "name": "Agreement_Copy.pdf",
+       "type": "Agreement",
+       "size": "2.1 MB"
+      },
+      {
+       "name": "Evidence_Photos.zip",
+       "type": "Evidence",
+       "size": "8.7 MB"
+      }
+     ],
+     "status": "pending",
+     "createdAt": "2026-07-21T19:18:51.705Z"
+    },
+    {
+     "id": "cli_4",
+     "name": "Neha Gupta",
+     "email": "neha.gupta@example.com",
+     "phone": "9796566720",
+     "avatar": null,
+     "caseCategory": "Cyber Crime",
+     "briefProblem": "I am a victim of online fraud and need legal help to file a case and recover my losses.",
+     "preferredDate": "2026-08-30",
+     "preferredTime": "2:00 PM",
+     "consultationType": "Audio Call",
+     "estimatedFee": 500,
+     "documents": [
+      {
+       "name": "ID_Proof.pdf",
+       "type": "ID Proof",
+       "size": "1.2 MB"
+      }
+     ],
+     "status": "accepted",
+     "createdAt": "2026-07-23T19:18:51.705Z"
+    },
+    {
+     "id": "cli_5",
+     "name": "Suresh Kumar",
+     "email": "suresh.kumar@example.com",
+     "phone": "7801222214",
+     "avatar": null,
+     "caseCategory": "Criminal Defense",
+     "briefProblem": "I have been falsely accused in a criminal case and need legal representation for my defense.",
+     "preferredDate": "2026-09-01",
+     "preferredTime": "2:00 PM",
+     "consultationType": "Chat",
+     "estimatedFee": 500,
+     "documents": [
+      {
+       "name": "ID_Proof.pdf",
+       "type": "ID Proof",
+       "size": "1.2 MB"
+      }
+     ],
+     "status": "completed",
+     "createdAt": "2026-08-01T19:18:51.705Z"
+    },
+    {
+     "id": "cli_6",
+     "name": "Anita Desai",
+     "email": "anita.desai@example.com",
+     "phone": "7746038106",
+     "avatar": null,
+     "caseCategory": "Consumer Complaint",
+     "briefProblem": "I purchased a defective product and the company is refusing to provide a replacement or refund.",
+     "preferredDate": "2026-09-05",
+     "preferredTime": "5:00 PM",
+     "consultationType": "In-Person",
+     "estimatedFee": 1500,
+     "documents": [
+      {
+       "name": "ID_Proof.pdf",
+       "type": "ID Proof",
+       "size": "1.2 MB"
+      },
+      {
+       "name": "Property_Document.pdf",
+       "type": "Property Document",
+       "size": "3.5 MB"
+      },
+      {
+       "name": "Agreement_Copy.pdf",
+       "type": "Agreement",
+       "size": "2.1 MB"
+      },
+      {
+       "name": "Evidence_Photos.zip",
+       "type": "Evidence",
+       "size": "8.7 MB"
+      }
+     ],
+     "status": "rejected",
+     "createdAt": "2026-08-16T19:18:51.705Z"
+    },
+    {
+     "id": "cli_7",
+     "name": "Vikram Singh",
+     "email": "vikram.singh@example.com",
+     "phone": "8134071992",
+     "avatar": null,
+     "caseCategory": "Employment Dispute",
+     "briefProblem": "I was terminated from my job without proper notice and due process. I need legal advice.",
+     "preferredDate": "2026-09-05",
+     "preferredTime": "2:00 PM",
+     "consultationType": "Audio Call",
+     "estimatedFee": 500,
+     "documents": [
+      {
+       "name": "ID_Proof.pdf",
+       "type": "ID Proof",
+       "size": "1.2 MB"
+      },
+      {
+       "name": "Property_Document.pdf",
+       "type": "Property Document",
+       "size": "3.5 MB"
+      },
+      {
+       "name": "Agreement_Copy.pdf",
+       "type": "Agreement",
+       "size": "2.1 MB"
+      },
+      {
+       "name": "Evidence_Photos.zip",
+       "type": "Evidence",
+       "size": "8.7 MB"
+      }
+     ],
+     "status": "rejected",
+     "createdAt": "2026-07-30T19:18:51.705Z"
+    },
+    {
+     "id": "cli_8",
+     "name": "Kavita Reddy",
+     "email": "kavita.reddy@example.com",
+     "phone": "9715087410",
+     "avatar": null,
+     "caseCategory": "Criminal Defense",
+     "briefProblem": "I have been falsely accused in a criminal case and need legal representation for my defense.",
+     "preferredDate": "2026-08-25",
+     "preferredTime": "10:00 AM",
+     "consultationType": "Chat",
+     "estimatedFee": 750,
+     "documents": [
+      {
+       "name": "ID_Proof.pdf",
+       "type": "ID Proof",
+       "size": "1.2 MB"
+      },
+      {
+       "name": "Property_Document.pdf",
+       "type": "Property Document",
+       "size": "3.5 MB"
+      }
+     ],
+     "status": "completed",
+     "createdAt": "2026-07-28T19:18:51.705Z"
+    },
+    {
+     "id": "cli_9",
+     "name": "Manoj Tiwari",
+     "email": "manoj.tiwari@example.com",
+     "phone": "7962840916",
+     "avatar": null,
+     "caseCategory": "Defamation",
+     "briefProblem": "False statements are being made against me publicly and I want to file a defamation case.",
+     "preferredDate": "2026-09-05",
+     "preferredTime": "2:00 PM",
+     "consultationType": "Audio Call",
+     "estimatedFee": 1000,
+     "documents": [
+      {
+       "name": "ID_Proof.pdf",
+       "type": "ID Proof",
+       "size": "1.2 MB"
+      },
+      {
+       "name": "Property_Document.pdf",
+       "type": "Property Document",
+       "size": "3.5 MB"
+      },
+      {
+       "name": "Agreement_Copy.pdf",
+       "type": "Agreement",
+       "size": "2.1 MB"
+      },
+      {
+       "name": "Evidence_Photos.zip",
+       "type": "Evidence",
+       "size": "8.7 MB"
+      }
+     ],
+     "status": "completed",
+     "createdAt": "2026-07-23T19:18:51.705Z"
+    },
+    {
+     "id": "cli_10",
+     "name": "Sunita Rao",
+     "email": "sunita.rao@example.com",
+     "phone": "7870015716",
+     "avatar": null,
+     "caseCategory": "Bail Application",
+     "briefProblem": "My family member has been arrested and I need immediate help with the bail application.",
+     "preferredDate": "2026-09-04",
+     "preferredTime": "4:00 PM",
+     "consultationType": "Chat",
+     "estimatedFee": 2000,
+     "documents": [
+      {
+       "name": "ID_Proof.pdf",
+       "type": "ID Proof",
+       "size": "1.2 MB"
+      },
+      {
+       "name": "Property_Document.pdf",
+       "type": "Property Document",
+       "size": "3.5 MB"
+      },
+      {
+       "name": "Agreement_Copy.pdf",
+       "type": "Agreement",
+       "size": "2.1 MB"
+      }
+     ],
+     "status": "pending",
+     "createdAt": "2026-08-05T19:18:51.705Z"
+    },
+    {
+     "id": "cli_11",
+     "name": "Deepak Joshi",
+     "email": "deepak.joshi@example.com",
+     "phone": "8822215387",
+     "avatar": null,
+     "caseCategory": "Property Dispute",
+     "briefProblem": "I have a dispute regarding property ownership. The other party is claiming rights over my ancestral property despite having no legal documents.",
+     "preferredDate": "2026-09-01",
+     "preferredTime": "3:00 PM",
+     "consultationType": "In-Person",
+     "estimatedFee": 1500,
+     "documents": [
+      {
+       "name": "ID_Proof.pdf",
+       "type": "ID Proof",
+       "size": "1.2 MB"
+      }
+     ],
+     "status": "completed",
+     "createdAt": "2026-08-19T19:18:51.705Z"
+    },
+    {
+     "id": "cli_12",
+     "name": "Rina Mehta",
+     "email": "rina.mehta@example.com",
+     "phone": "8829007795",
+     "avatar": null,
+     "caseCategory": "Cyber Crime",
+     "briefProblem": "I am a victim of online fraud and need legal help to file a case and recover my losses.",
+     "preferredDate": "2026-08-25",
+     "preferredTime": "2:00 PM",
+     "consultationType": "Audio Call",
+     "estimatedFee": 500,
+     "documents": [
+      {
+       "name": "ID_Proof.pdf",
+       "type": "ID Proof",
+       "size": "1.2 MB"
+      },
+      {
+       "name": "Property_Document.pdf",
+       "type": "Property Document",
+       "size": "3.5 MB"
+      },
+      {
+       "name": "Agreement_Copy.pdf",
+       "type": "Agreement",
+       "size": "2.1 MB"
+      },
+      {
+       "name": "Evidence_Photos.zip",
+       "type": "Evidence",
+       "size": "8.7 MB"
+      }
+     ],
+     "status": "pending",
+     "createdAt": "2026-08-20T19:18:51.705Z"
+    },
+    {
+     "id": "cli_13",
+     "name": "Arun Nair",
+     "email": "arun.nair@example.com",
+     "phone": "7237776067",
+     "avatar": null,
+     "caseCategory": "Divorce & Family",
+     "briefProblem": "I am seeking legal help for divorce proceedings and custody matters.",
+     "preferredDate": "2026-08-26",
+     "preferredTime": "4:00 PM",
+     "consultationType": "In-Person",
+     "estimatedFee": 1500,
+     "documents": [
+      {
+       "name": "ID_Proof.pdf",
+       "type": "ID Proof",
+       "size": "1.2 MB"
+      },
+      {
+       "name": "Property_Document.pdf",
+       "type": "Property Document",
+       "size": "3.5 MB"
+      },
+      {
+       "name": "Agreement_Copy.pdf",
+       "type": "Agreement",
+       "size": "2.1 MB"
+      }
+     ],
+     "status": "accepted",
+     "createdAt": "2026-07-28T19:18:51.705Z"
+    },
+    {
+     "id": "cli_14",
+     "name": "Pooja Saxena",
+     "email": "pooja.saxena@example.com",
+     "phone": "7228682352",
+     "avatar": null,
+     "caseCategory": "Employment Dispute",
+     "briefProblem": "I was terminated from my job without proper notice and due process. I need legal advice.",
+     "preferredDate": "2026-08-27",
+     "preferredTime": "5:00 PM",
+     "consultationType": "Video Call",
+     "estimatedFee": 750,
+     "documents": [
+      {
+       "name": "ID_Proof.pdf",
+       "type": "ID Proof",
+       "size": "1.2 MB"
+      },
+      {
+       "name": "Property_Document.pdf",
+       "type": "Property Document",
+       "size": "3.5 MB"
+      },
+      {
+       "name": "Agreement_Copy.pdf",
+       "type": "Agreement",
+       "size": "2.1 MB"
+      }
+     ],
+     "status": "rejected",
+     "createdAt": "2026-08-12T19:18:51.705Z"
+    },
+    {
+     "id": "cli_15",
+     "name": "Ravi Chopra",
+     "email": "ravi.chopra@example.com",
+     "phone": "9881128689",
+     "avatar": null,
+     "caseCategory": "Bail Application",
+     "briefProblem": "My family member has been arrested and I need immediate help with the bail application.",
+     "preferredDate": "2026-09-02",
+     "preferredTime": "2:00 PM",
+     "consultationType": "Chat",
+     "estimatedFee": 750,
+     "documents": [
+      {
+       "name": "ID_Proof.pdf",
+       "type": "ID Proof",
+       "size": "1.2 MB"
+      },
+      {
+       "name": "Property_Document.pdf",
+       "type": "Property Document",
+       "size": "3.5 MB"
+      }
+     ],
+     "status": "completed",
+     "createdAt": "2026-07-21T19:18:51.705Z"
+    }
+   ],
+   "cases": [
+    {
+     "id": "case_1",
+     "caseNumber": "LC/2026/0001",
+     "clientId": "cli_4",
+     "clientName": "Neha Gupta",
+     "caseType": "Cyber Crime",
+     "legalCategory": "Cyber Crime",
+     "court": "District Court",
+     "filingDate": "2025-11-16T19:18:51.706Z",
+     "status": "Consultation Completed",
+     "nextHearing": "2026-08-28",
+     "documents": [
+      {
+       "name": "ID_Proof.pdf",
+       "type": "ID Proof",
+       "size": "1.2 MB"
+      }
+     ],
+     "notes": [
+      {
+       "id": "note_0_1",
+       "text": "Initial consultation completed. Client has provided basic documents.",
+       "isPrivate": true,
+       "createdAt": "2026-08-11T19:18:51.706Z"
+      },
+      {
+       "id": "note_0_2",
+       "text": "Need to review property documents in detail before the next hearing.",
+       "isPrivate": true,
+       "createdAt": "2026-08-15T19:18:51.706Z"
+      }
+     ],
+     "description": "I am a victim of online fraud and need legal help to file a case and recover my losses.",
+     "createdAt": "2026-07-23T19:18:51.705Z"
+    },
+    {
+     "id": "case_2",
+     "caseNumber": "LC/2026/0002",
+     "clientId": "cli_5",
+     "clientName": "Suresh Kumar",
+     "caseType": "Criminal Defense",
+     "legalCategory": "Criminal Defense",
+     "court": "District Court",
+     "filingDate": "2026-04-12T19:18:51.706Z",
+     "status": "New",
+     "nextHearing": "2026-08-29",
+     "documents": [
+      {
+       "name": "ID_Proof.pdf",
+       "type": "ID Proof",
+       "size": "1.2 MB"
+      }
+     ],
+     "notes": [
+      {
+       "id": "note_1_1",
+       "text": "Initial consultation completed. Client has provided basic documents.",
+       "isPrivate": true,
+       "createdAt": "2026-08-04T19:18:51.706Z"
+      },
+      {
+       "id": "note_1_2",
+       "text": "Need to review property documents in detail before the next hearing.",
+       "isPrivate": true,
+       "createdAt": "2026-08-11T19:18:51.706Z"
+      }
+     ],
+     "description": "I have been falsely accused in a criminal case and need legal representation for my defense.",
+     "createdAt": "2026-08-01T19:18:51.705Z"
+    },
+    {
+     "id": "case_3",
+     "caseNumber": "LC/2026/0003",
+     "clientId": "cli_8",
+     "clientName": "Kavita Reddy",
+     "caseType": "Criminal Defense",
+     "legalCategory": "Criminal Defense",
+     "court": "Sessions Court",
+     "filingDate": "2026-02-16T19:18:51.706Z",
+     "status": "Hearing Scheduled",
+     "nextHearing": "2026-09-17",
+     "documents": [
+      {
+       "name": "ID_Proof.pdf",
+       "type": "ID Proof",
+       "size": "1.2 MB"
+      },
+      {
+       "name": "Property_Document.pdf",
+       "type": "Property Document",
+       "size": "3.5 MB"
+      }
+     ],
+     "notes": [
+      {
+       "id": "note_2_1",
+       "text": "Initial consultation completed. Client has provided basic documents.",
+       "isPrivate": true,
+       "createdAt": "2026-08-10T19:18:51.706Z"
+      },
+      {
+       "id": "note_2_2",
+       "text": "Need to review property documents in detail before the next hearing.",
+       "isPrivate": true,
+       "createdAt": "2026-08-15T19:18:51.706Z"
+      }
+     ],
+     "description": "I have been falsely accused in a criminal case and need legal representation for my defense.",
+     "createdAt": "2026-07-28T19:18:51.705Z"
+    },
+    {
+     "id": "case_4",
+     "caseNumber": "LC/2026/0004",
+     "clientId": "cli_9",
+     "clientName": "Manoj Tiwari",
+     "caseType": "Defamation",
+     "legalCategory": "Defamation",
+     "court": "Supreme Court",
+     "filingDate": "2026-02-13T19:18:51.706Z",
+     "status": "Hearing Scheduled",
+     "nextHearing": "2026-09-18",
+     "documents": [
+      {
+       "name": "ID_Proof.pdf",
+       "type": "ID Proof",
+       "size": "1.2 MB"
+      },
+      {
+       "name": "Property_Document.pdf",
+       "type": "Property Document",
+       "size": "3.5 MB"
+      },
+      {
+       "name": "Agreement_Copy.pdf",
+       "type": "Agreement",
+       "size": "2.1 MB"
+      },
+      {
+       "name": "Evidence_Photos.zip",
+       "type": "Evidence",
+       "size": "8.7 MB"
+      }
+     ],
+     "notes": [
+      {
+       "id": "note_3_1",
+       "text": "Initial consultation completed. Client has provided basic documents.",
+       "isPrivate": true,
+       "createdAt": "2026-08-12T19:18:51.706Z"
+      },
+      {
+       "id": "note_3_2",
+       "text": "Need to review property documents in detail before the next hearing.",
+       "isPrivate": true,
+       "createdAt": "2026-08-13T19:18:51.706Z"
+      }
+     ],
+     "description": "False statements are being made against me publicly and I want to file a defamation case.",
+     "createdAt": "2026-07-23T19:18:51.705Z"
+    },
+    {
+     "id": "case_5",
+     "caseNumber": "LC/2026/0005",
+     "clientId": "cli_11",
+     "clientName": "Deepak Joshi",
+     "caseType": "Property Dispute",
+     "legalCategory": "Property Dispute",
+     "court": "Supreme Court",
+     "filingDate": "2025-12-18T19:18:51.706Z",
+     "status": "New",
+     "nextHearing": "2026-08-28",
+     "documents": [
+      {
+       "name": "ID_Proof.pdf",
+       "type": "ID Proof",
+       "size": "1.2 MB"
+      }
+     ],
+     "notes": [
+      {
+       "id": "note_4_1",
+       "text": "Initial consultation completed. Client has provided basic documents.",
+       "isPrivate": true,
+       "createdAt": "2026-08-10T19:18:51.706Z"
+      },
+      {
+       "id": "note_4_2",
+       "text": "Need to review property documents in detail before the next hearing.",
+       "isPrivate": true,
+       "createdAt": "2026-08-22T19:18:51.706Z"
+      }
+     ],
+     "description": "I have a dispute regarding property ownership. The other party is claiming rights over my ancestral property despite having no legal documents.",
+     "createdAt": "2026-08-19T19:18:51.705Z"
+    },
+    {
+     "id": "case_6",
+     "caseNumber": "LC/2026/0006",
+     "clientId": "cli_13",
+     "clientName": "Arun Nair",
+     "caseType": "Divorce & Family",
+     "legalCategory": "Divorce & Family",
+     "court": "Family Court",
+     "filingDate": "2026-04-28T19:18:51.706Z",
+     "status": "Consultation Completed",
+     "nextHearing": "2026-08-28",
+     "documents": [
+      {
+       "name": "ID_Proof.pdf",
+       "type": "ID Proof",
+       "size": "1.2 MB"
+      },
+      {
+       "name": "Property_Document.pdf",
+       "type": "Property Document",
+       "size": "3.5 MB"
+      },
+      {
+       "name": "Agreement_Copy.pdf",
+       "type": "Agreement",
+       "size": "2.1 MB"
+      }
+     ],
+     "notes": [
+      {
+       "id": "note_5_1",
+       "text": "Initial consultation completed. Client has provided basic documents.",
+       "isPrivate": true,
+       "createdAt": "2026-08-03T19:18:51.706Z"
+      },
+      {
+       "id": "note_5_2",
+       "text": "Need to review property documents in detail before the next hearing.",
+       "isPrivate": true,
+       "createdAt": "2026-08-16T19:18:51.706Z"
+      }
+     ],
+     "description": "I am seeking legal help for divorce proceedings and custody matters.",
+     "createdAt": "2026-07-28T19:18:51.705Z"
+    },
+    {
+     "id": "case_7",
+     "caseNumber": "LC/2026/0007",
+     "clientId": "cli_15",
+     "clientName": "Ravi Chopra",
+     "caseType": "Bail Application",
+     "legalCategory": "Bail Application",
+     "court": "Family Court",
+     "filingDate": "2026-04-18T19:18:51.706Z",
+     "status": "New",
+     "nextHearing": "2026-09-22",
+     "documents": [
+      {
+       "name": "ID_Proof.pdf",
+       "type": "ID Proof",
+       "size": "1.2 MB"
+      },
+      {
+       "name": "Property_Document.pdf",
+       "type": "Property Document",
+       "size": "3.5 MB"
+      }
+     ],
+     "notes": [
+      {
+       "id": "note_6_1",
+       "text": "Initial consultation completed. Client has provided basic documents.",
+       "isPrivate": true,
+       "createdAt": "2026-08-10T19:18:51.706Z"
+      },
+      {
+       "id": "note_6_2",
+       "text": "Need to review property documents in detail before the next hearing.",
+       "isPrivate": true,
+       "createdAt": "2026-08-19T19:18:51.706Z"
+      }
+     ],
+     "description": "My family member has been arrested and I need immediate help with the bail application.",
+     "createdAt": "2026-07-21T19:18:51.705Z"
+    }
+   ],
+   "appointments": [
+    {
+     "id": "appt_1",
+     "clientId": "cli_1",
+     "clientName": "Rahul Verma",
+     "caseType": "Defamation",
+     "date": "2026-08-25T10:00:00.000Z",
+     "duration": 45,
+     "type": "Chat",
+     "status": "confirmed",
+     "fee": 1500,
+     "reminders": {
+      "h24Sent": false,
+      "m30Sent": false
+     }
+    },
+    {
+     "id": "appt_2",
+     "clientId": "cli_2",
+     "clientName": "Priya Sharma",
+     "caseType": "Insurance Claim",
+     "date": "2026-08-26T06:30:00.000Z",
+     "duration": 45,
+     "type": "Chat",
+     "status": "confirmed",
+     "fee": 750,
+     "reminders": {
+      "h24Sent": false,
+      "m30Sent": false
+     }
+    },
+    {
+     "id": "appt_3",
+     "clientId": "cli_3",
+     "clientName": "Amit Patel",
+     "caseType": "Employment Dispute",
+     "date": "2026-08-27T08:30:00.000Z",
+     "duration": 30,
+     "type": "Video Call",
+     "status": "completed",
+     "fee": 1000,
+     "reminders": {
+      "h24Sent": false,
+      "m30Sent": false
+     }
+    },
+    {
+     "id": "appt_4",
+     "clientId": "cli_4",
+     "clientName": "Neha Gupta",
+     "caseType": "Cyber Crime",
+     "date": "2026-08-28T07:00:00.000Z",
+     "duration": 30,
+     "type": "Video Call",
+     "status": "confirmed",
+     "fee": 1000,
+     "reminders": {
+      "h24Sent": false,
+      "m30Sent": false
+     }
+    },
+    {
+     "id": "appt_5",
+     "clientId": "cli_5",
+     "clientName": "Suresh Kumar",
+     "caseType": "Criminal Defense",
+     "date": "2026-08-29T03:30:00.000Z",
+     "duration": 60,
+     "type": "Chat",
+     "status": "upcoming",
+     "fee": 1500,
+     "reminders": {
+      "h24Sent": false,
+      "m30Sent": false
+     }
+    }
+   ],
+   "transactions": [
+    {
+     "id": "txn_1",
+     "clientName": "Pooja Saxena",
+     "service": "Court Appearance",
+     "date": "2026-08-20T19:18:51.706Z",
+     "amount": 3000,
+     "platformFee": 300,
+     "netEarnings": 2700,
+     "paymentStatus": "completed",
+     "paymentMethod": "Net Banking"
+    },
+    {
+     "id": "txn_5",
+     "clientName": "Rina Mehta",
+     "service": "Document Review",
+     "date": "2026-08-16T19:18:51.707Z",
+     "amount": 3000,
+     "platformFee": 300,
+     "netEarnings": 2700,
+     "paymentStatus": "completed",
+     "paymentMethod": "Net Banking"
+    },
+    {
+     "id": "txn_6",
+     "clientName": "Rina Mehta",
+     "service": "Document Review",
+     "date": "2026-08-11T19:18:51.707Z",
+     "amount": 750,
+     "platformFee": 75,
+     "netEarnings": 675,
+     "paymentStatus": "pending",
+     "paymentMethod": "Card"
+    },
+    {
+     "id": "txn_13",
+     "clientName": "Suresh Kumar",
+     "service": "Initial Consultation",
+     "date": "2026-08-07T19:18:51.707Z",
+     "amount": 3000,
+     "platformFee": 300,
+     "netEarnings": 2700,
+     "paymentStatus": "completed",
+     "paymentMethod": "Net Banking"
+    },
+    {
+     "id": "txn_3",
+     "clientName": "Pooja Saxena",
+     "service": "Case Filing",
+     "date": "2026-08-03T19:18:51.707Z",
+     "amount": 1500,
+     "platformFee": 150,
+     "netEarnings": 1350,
+     "paymentStatus": "completed",
+     "paymentMethod": "Card"
+    },
+    {
+     "id": "txn_10",
+     "clientName": "Rina Mehta",
+     "service": "Initial Consultation",
+     "date": "2026-08-03T19:18:51.707Z",
+     "amount": 2000,
+     "platformFee": 200,
+     "netEarnings": 1800,
+     "paymentStatus": "pending",
+     "paymentMethod": "UPI"
+    },
+    {
+     "id": "txn_16",
+     "clientName": "Deepak Joshi",
+     "service": "Initial Consultation",
+     "date": "2026-08-03T19:18:51.707Z",
+     "amount": 2000,
+     "platformFee": 200,
+     "netEarnings": 1800,
+     "paymentStatus": "processing",
+     "paymentMethod": "UPI"
+    },
+    {
+     "id": "txn_18",
+     "clientName": "Manoj Tiwari",
+     "service": "Detailed Consultation",
+     "date": "2026-07-30T19:18:51.707Z",
+     "amount": 1000,
+     "platformFee": 100,
+     "netEarnings": 900,
+     "paymentStatus": "completed",
+     "paymentMethod": "UPI"
+    },
+    {
+     "id": "txn_2",
+     "clientName": "Arun Nair",
+     "service": "Initial Consultation",
+     "date": "2026-07-30T19:18:51.706Z",
+     "amount": 5000,
+     "platformFee": 500,
+     "netEarnings": 4500,
+     "paymentStatus": "processing",
+     "paymentMethod": "Card"
+    },
+    {
+     "id": "txn_4",
+     "clientName": "Manoj Tiwari",
+     "service": "Document Review",
+     "date": "2026-07-29T19:18:51.707Z",
+     "amount": 1000,
+     "platformFee": 100,
+     "netEarnings": 900,
+     "paymentStatus": "pending",
+     "paymentMethod": "UPI"
+    },
+    {
+     "id": "txn_7",
+     "clientName": "Rahul Verma",
+     "service": "Case Filing",
+     "date": "2026-07-29T19:18:51.707Z",
+     "amount": 750,
+     "platformFee": 75,
+     "netEarnings": 675,
+     "paymentStatus": "completed",
+     "paymentMethod": "Net Banking"
+    },
+    {
+     "id": "txn_12",
+     "clientName": "Kavita Reddy",
+     "service": "Initial Consultation",
+     "date": "2026-07-27T19:18:51.707Z",
+     "amount": 5000,
+     "platformFee": 500,
+     "netEarnings": 4500,
+     "paymentStatus": "processing",
+     "paymentMethod": "Net Banking"
+    },
+    {
+     "id": "txn_20",
+     "clientName": "Priya Sharma",
+     "service": "Detailed Consultation",
+     "date": "2026-07-22T19:18:51.707Z",
+     "amount": 750,
+     "platformFee": 75,
+     "netEarnings": 675,
+     "paymentStatus": "completed",
+     "paymentMethod": "UPI"
+    },
+    {
+     "id": "txn_19",
+     "clientName": "Amit Patel",
+     "service": "Court Appearance",
+     "date": "2026-07-21T19:18:51.707Z",
+     "amount": 500,
+     "platformFee": 50,
+     "netEarnings": 450,
+     "paymentStatus": "completed",
+     "paymentMethod": "Card"
+    },
+    {
+     "id": "txn_14",
+     "clientName": "Neha Gupta",
+     "service": "Court Appearance",
+     "date": "2026-07-17T19:18:51.707Z",
+     "amount": 5000,
+     "platformFee": 500,
+     "netEarnings": 4500,
+     "paymentStatus": "completed",
+     "paymentMethod": "Net Banking"
+    },
+    {
+     "id": "txn_15",
+     "clientName": "Rina Mehta",
+     "service": "Case Filing",
+     "date": "2026-07-17T19:18:51.707Z",
+     "amount": 1000,
+     "platformFee": 100,
+     "netEarnings": 900,
+     "paymentStatus": "processing",
+     "paymentMethod": "UPI"
+    },
+    {
+     "id": "txn_11",
+     "clientName": "Priya Sharma",
+     "service": "Detailed Consultation",
+     "date": "2026-07-16T19:18:51.707Z",
+     "amount": 3000,
+     "platformFee": 300,
+     "netEarnings": 2700,
+     "paymentStatus": "completed",
+     "paymentMethod": "Net Banking"
+    },
+    {
+     "id": "txn_17",
+     "clientName": "Neha Gupta",
+     "service": "Initial Consultation",
+     "date": "2026-07-15T19:18:51.707Z",
+     "amount": 5000,
+     "platformFee": 500,
+     "netEarnings": 4500,
+     "paymentStatus": "processing",
+     "paymentMethod": "Net Banking"
+    },
+    {
+     "id": "txn_9",
+     "clientName": "Pooja Saxena",
+     "service": "Document Review",
+     "date": "2026-07-12T19:18:51.707Z",
+     "amount": 5000,
+     "platformFee": 500,
+     "netEarnings": 4500,
+     "paymentStatus": "completed",
+     "paymentMethod": "Card"
+    },
+    {
+     "id": "txn_8",
+     "clientName": "Neha Gupta",
+     "service": "Document Review",
+     "date": "2026-06-30T19:18:51.707Z",
+     "amount": 750,
+     "platformFee": 75,
+     "netEarnings": 675,
+     "paymentStatus": "completed",
+     "paymentMethod": "Net Banking"
+    }
+   ],
+   "reviews": [
+    {
+     "id": "rev_11",
+     "clientName": "Rina Mehta",
+     "rating": 4,
+     "review": "Exceptional lawyer with deep understanding of civil matters.",
+     "wouldRecommend": true,
+     "date": "2026-08-19T19:18:51.707Z"
+    },
+    {
+     "id": "rev_6",
+     "clientName": "Neha Gupta",
+     "rating": 5,
+     "review": "Great experience. The lawyer understood my case immediately and provided practical solutions.",
+     "wouldRecommend": true,
+     "date": "2026-08-16T19:18:51.707Z"
+    },
+    {
+     "id": "rev_12",
+     "clientName": "Priya Sharma",
+     "rating": 4,
+     "review": "Prompt responses and thorough case preparation. Very satisfied.",
+     "wouldRecommend": false,
+     "date": "2026-08-06T19:18:51.707Z"
+    },
+    {
+     "id": "rev_10",
+     "clientName": "Deepak Joshi",
+     "rating": 5,
+     "review": "Good consultation experience. Would definitely recommend to others.",
+     "wouldRecommend": false,
+     "date": "2026-08-04T19:18:51.707Z"
+    },
+    {
+     "id": "rev_4",
+     "clientName": "Anita Desai",
+     "rating": 5,
+     "review": "Outstanding legal advice. Resolved my case efficiently.",
+     "wouldRecommend": true,
+     "date": "2026-06-21T19:18:51.707Z"
+    },
+    {
+     "id": "rev_7",
+     "clientName": "Priya Sharma",
+     "rating": 5,
+     "review": "Very competent and well-versed in criminal law. Won my case successfully.",
+     "wouldRecommend": false,
+     "date": "2026-06-15T19:18:51.707Z"
+    },
+    {
+     "id": "rev_9",
+     "clientName": "Pooja Saxena",
+     "rating": 4,
+     "review": "Knowledgeable and supportive. Made a complex legal process seem simple.",
+     "wouldRecommend": true,
+     "date": "2026-06-05T19:18:51.707Z"
+    },
+    {
+     "id": "rev_8",
+     "clientName": "Pooja Saxena",
+     "rating": 5,
+     "review": "Highly professional. Worth every rupee spent on consultation.",
+     "wouldRecommend": true,
+     "date": "2026-05-17T19:18:51.707Z"
+    },
+    {
+     "id": "rev_1",
+     "clientName": "Pooja Saxena",
+     "rating": 5,
+     "review": "Excellent lawyer! Very knowledgeable and professional. Explained everything clearly.",
+     "wouldRecommend": true,
+     "date": "2026-04-06T19:18:51.707Z"
+    },
+    {
+     "id": "rev_3",
+     "clientName": "Suresh Kumar",
+     "rating": 4,
+     "review": "Provided great guidance on my property dispute case. Very patient and thorough.",
+     "wouldRecommend": true,
+     "date": "2026-02-18T19:18:51.707Z"
+    },
+    {
+     "id": "rev_2",
+     "clientName": "Priya Sharma",
+     "rating": 5,
+     "review": "Very helpful in understanding my legal rights. Highly recommended.",
+     "wouldRecommend": true,
+     "date": "2026-02-12T19:18:51.707Z"
+    },
+    {
+     "id": "rev_5",
+     "clientName": "Sunita Rao",
+     "rating": 3,
+     "review": "Professional and responsive. Kept me informed throughout the process.",
+     "wouldRecommend": true,
+     "date": "2026-02-08T19:18:51.707Z"
+    }
+   ],
+   "notifications": [
+    {
+     "id": "notif_1",
+     "type": "client",
+     "title": "New Consultation Request",
+     "message": "Rahul Verma has requested a consultation for Defamation.",
+     "read": false,
+     "time": "2026-08-24T18:48:51.707Z",
+     "link": "/clients"
+    },
+    {
+     "id": "notif_2",
+     "type": "appointment",
+     "title": "Upcoming Appointment",
+     "message": "Your consultation with Rahul Verma starts soon.",
+     "read": false,
+     "time": "2026-08-24T18:18:51.707Z",
+     "link": "/consultation"
+    },
+    {
+     "id": "notif_3",
+     "type": "payment",
+     "title": "Payment Received",
+     "message": "₹1,000 received for consultation with Amit Patel.",
+     "read": true,
+     "time": "2026-08-24T17:18:51.707Z",
+     "link": "/payments"
+    },
+    {
+     "id": "notif_4",
+     "type": "verification",
+     "title": "Certificate Verified",
+     "message": "Your LLB certificate has been successfully verified.",
+     "read": true,
+     "time": "2026-08-23T19:18:51.707Z",
+     "link": "/settings/tab/notifications"
+    },
+    {
+     "id": "notif_5",
+     "type": "security",
+     "title": "New Device Login",
+     "message": "A new device logged into your account. Review it in Security settings.",
+     "read": false,
+     "time": "2026-08-22T19:18:51.707Z",
+     "link": "/settings/tab/security"
+    },
+    {
+     "id": "notif_6",
+     "type": "case",
+     "title": "Hearing Reminder",
+     "message": "Case LC/2026/0001 has a hearing scheduled for 2026-08-27.",
+     "read": false,
+     "time": "2026-08-21T19:18:51.707Z",
+     "link": "/cases"
+    }
+   ],
+   "conversations": [
+    {
+     "id": "conv_1",
+     "clientId": "cli_1",
+     "clientName": "Rahul Verma",
+     "lastMessage": "When is the next hearing?",
+     "lastMessageTime": "2026-08-22T10:18:51.708Z",
+     "unreadCount": 2,
+     "category": "Defamation",
+     "messages": [
+      {
+       "id": "m0_1",
+       "sender": "client",
+       "text": "Hello, I need help with my case.",
+       "time": "2026-08-21T19:18:51.708Z"
+      },
+      {
+       "id": "m0_2",
+       "sender": "lawyer",
+       "text": "Hello Rahul, I have reviewed your case details. Let me explain what I found.",
+       "time": "2026-08-21T20:18:51.708Z"
+      },
+      {
+       "id": "m0_3",
+       "sender": "lawyer",
+       "text": "Based on the documents you shared, there is a strong case. We should proceed with filing.",
+       "time": "2026-08-22T19:18:51.708Z"
+      },
+      {
+       "id": "m0_4",
+       "sender": "client",
+       "text": "Thank you. What documents do I need to submit next?",
+       "time": "2026-08-22T19:48:51.708Z"
+      },
+      {
+       "id": "m0_5",
+       "sender": "lawyer",
+       "text": "Please upload the original agreement copy and any correspondence you have with the other party.",
+       "time": "2026-08-23T19:18:51.708Z"
+      },
+      {
+       "id": "m0_6",
+       "sender": "client",
+       "text": "I have uploaded the documents. Please review them.",
+       "time": "2026-08-24T07:18:51.708Z"
+      }
+     ]
+    },
+    {
+     "id": "conv_2",
+     "clientId": "cli_2",
+     "clientName": "Priya Sharma",
+     "lastMessage": "Please review the attached agreement.",
+     "lastMessageTime": "2026-08-23T06:18:51.708Z",
+     "unreadCount": 1,
+     "category": "Insurance Claim",
+     "messages": [
+      {
+       "id": "m1_1",
+       "sender": "client",
+       "text": "Hello, I need help with my case.",
+       "time": "2026-08-21T19:18:51.708Z"
+      },
+      {
+       "id": "m1_2",
+       "sender": "lawyer",
+       "text": "Hello Priya, I have reviewed your case details. Let me explain what I found.",
+       "time": "2026-08-21T20:18:51.708Z"
+      },
+      {
+       "id": "m1_3",
+       "sender": "lawyer",
+       "text": "Based on the documents you shared, there is a strong case. We should proceed with filing.",
+       "time": "2026-08-22T19:18:51.708Z"
+      },
+      {
+       "id": "m1_4",
+       "sender": "client",
+       "text": "Thank you. What documents do I need to submit next?",
+       "time": "2026-08-22T19:48:51.708Z"
+      },
+      {
+       "id": "m1_5",
+       "sender": "lawyer",
+       "text": "Please upload the original agreement copy and any correspondence you have with the other party.",
+       "time": "2026-08-23T19:18:51.708Z"
+      },
+      {
+       "id": "m1_6",
+       "sender": "client",
+       "text": "I have uploaded the documents. Please review them.",
+       "time": "2026-08-24T07:18:51.708Z"
+      }
+     ]
+    },
+    {
+     "id": "conv_3",
+     "clientId": "cli_3",
+     "clientName": "Amit Patel",
+     "lastMessage": "Thank you for the consultation.",
+     "lastMessageTime": "2026-08-23T06:18:51.708Z",
+     "unreadCount": 0,
+     "category": "Employment Dispute",
+     "messages": [
+      {
+       "id": "m2_1",
+       "sender": "client",
+       "text": "Hello, I need help with my case.",
+       "time": "2026-08-21T19:18:51.708Z"
+      },
+      {
+       "id": "m2_2",
+       "sender": "lawyer",
+       "text": "Hello Amit, I have reviewed your case details. Let me explain what I found.",
+       "time": "2026-08-21T20:18:51.708Z"
+      },
+      {
+       "id": "m2_3",
+       "sender": "lawyer",
+       "text": "Based on the documents you shared, there is a strong case. We should proceed with filing.",
+       "time": "2026-08-22T19:18:51.708Z"
+      },
+      {
+       "id": "m2_4",
+       "sender": "client",
+       "text": "Thank you. What documents do I need to submit next?",
+       "time": "2026-08-22T19:48:51.708Z"
+      },
+      {
+       "id": "m2_5",
+       "sender": "lawyer",
+       "text": "Please upload the original agreement copy and any correspondence you have with the other party.",
+       "time": "2026-08-23T19:18:51.708Z"
+      },
+      {
+       "id": "m2_6",
+       "sender": "client",
+       "text": "I have uploaded the documents. Please review them.",
+       "time": "2026-08-24T07:18:51.708Z"
+      }
+     ]
+    },
+    {
+     "id": "conv_4",
+     "clientId": "cli_4",
+     "clientName": "Neha Gupta",
+     "lastMessage": "Thank you for the consultation.",
+     "lastMessageTime": "2026-08-23T21:18:51.708Z",
+     "unreadCount": 0,
+     "category": "Cyber Crime",
+     "messages": [
+      {
+       "id": "m3_1",
+       "sender": "client",
+       "text": "Hello, I need help with my case.",
+       "time": "2026-08-21T19:18:51.708Z"
+      },
+      {
+       "id": "m3_2",
+       "sender": "lawyer",
+       "text": "Hello Neha, I have reviewed your case details. Let me explain what I found.",
+       "time": "2026-08-21T20:18:51.708Z"
+      },
+      {
+       "id": "m3_3",
+       "sender": "lawyer",
+       "text": "Based on the documents you shared, there is a strong case. We should proceed with filing.",
+       "time": "2026-08-22T19:18:51.708Z"
+      },
+      {
+       "id": "m3_4",
+       "sender": "client",
+       "text": "Thank you. What documents do I need to submit next?",
+       "time": "2026-08-22T19:48:51.708Z"
+      },
+      {
+       "id": "m3_5",
+       "sender": "lawyer",
+       "text": "Please upload the original agreement copy and any correspondence you have with the other party.",
+       "time": "2026-08-23T19:18:51.708Z"
+      },
+      {
+       "id": "m3_6",
+       "sender": "client",
+       "text": "I have uploaded the documents. Please review them.",
+       "time": "2026-08-24T07:18:51.708Z"
+      }
+     ]
+    },
+    {
+     "id": "conv_5",
+     "clientId": "cli_5",
+     "clientName": "Suresh Kumar",
+     "lastMessage": "I have uploaded the required documents.",
+     "lastMessageTime": "2026-08-22T20:18:51.708Z",
+     "unreadCount": 0,
+     "category": "Criminal Defense",
+     "messages": [
+      {
+       "id": "m4_1",
+       "sender": "client",
+       "text": "Hello, I need help with my case.",
+       "time": "2026-08-21T19:18:51.708Z"
+      },
+      {
+       "id": "m4_2",
+       "sender": "lawyer",
+       "text": "Hello Suresh, I have reviewed your case details. Let me explain what I found.",
+       "time": "2026-08-21T20:18:51.708Z"
+      },
+      {
+       "id": "m4_3",
+       "sender": "lawyer",
+       "text": "Based on the documents you shared, there is a strong case. We should proceed with filing.",
+       "time": "2026-08-22T19:18:51.708Z"
+      },
+      {
+       "id": "m4_4",
+       "sender": "client",
+       "text": "Thank you. What documents do I need to submit next?",
+       "time": "2026-08-22T19:48:51.708Z"
+      },
+      {
+       "id": "m4_5",
+       "sender": "lawyer",
+       "text": "Please upload the original agreement copy and any correspondence you have with the other party.",
+       "time": "2026-08-23T19:18:51.708Z"
+      },
+      {
+       "id": "m4_6",
+       "sender": "client",
+       "text": "I have uploaded the documents. Please review them.",
+       "time": "2026-08-24T07:18:51.708Z"
+      }
+     ]
+    }
+   ],
+   "experience": [
+    {
+     "id": "exp_1",
+     "organization": "Sharma & Associates Law Firm",
+     "position": "Senior Associate",
+     "startYear": 2019,
+     "endYear": 2024,
+     "role": "Lead Counsel",
+     "area": "Criminal & Civil Litigation"
+    },
+    {
+     "id": "exp_2",
+     "organization": "Kumar Legal Services",
+     "position": "Associate",
+     "startYear": 2015,
+     "endYear": 2019,
+     "role": "Counsel",
+     "area": "Criminal Law"
+    },
+    {
+     "id": "exp_3",
+     "organization": "District Court Practice",
+     "position": "Independent Advocate",
+     "startYear": 2010,
+     "endYear": 2015,
+     "role": "Advocate",
+     "area": "General Practice"
+    }
+   ],
+   "caseExperience": [
+    {
+     "id": "cexp_1",
+     "type": "Property Dispute",
+     "area": "Civil Law",
+     "court": "High Court",
+     "year": 2023,
+     "role": "Lead Counsel",
+     "status": "Completed",
+     "outcome": "Successfully Resolved",
+     "description": "Complex property dispute involving multiple parties. Obtained a favourable verdict for the client."
+    },
+    {
+     "id": "cexp_2",
+     "type": "Criminal Defense",
+     "area": "Criminal Law",
+     "court": "Sessions Court",
+     "year": 2022,
+     "role": "Defense Counsel",
+     "status": "Completed",
+     "outcome": "Acquitted",
+     "description": "Defended client against serious criminal charges. Secured acquittal based on insufficient evidence."
+    },
+    {
+     "id": "cexp_3",
+     "type": "Cyber Crime",
+     "area": "Cyber Law",
+     "court": "District Court",
+     "year": 2024,
+     "role": "Counsel",
+     "status": "Ongoing",
+     "outcome": "In Progress",
+     "description": "Representing a victim of online fraud and identity theft."
+    },
+    {
+     "id": "cexp_4",
+     "type": "Bail Application",
+     "area": "Criminal Law",
+     "court": "High Court",
+     "year": 2023,
+     "role": "Defense Counsel",
+     "status": "Completed",
+     "outcome": "Bail Granted",
+     "description": "Successfully argued a bail application in an economic offence case."
+    }
+   ],
+   "certificates": [
+    {
+     "id": "cert_1",
+     "name": "Bar Council Enrollment Certificate",
+     "type": "required",
+     "status": "verified",
+     "verifiedDate": "2024-01-15",
+     "fileId": null,
+     "fileLabel": "bar_council_cert.pdf"
+    },
+    {
+     "id": "cert_2",
+     "name": "LLB Degree Certificate",
+     "type": "required",
+     "status": "verified",
+     "verifiedDate": "2024-01-15",
+     "fileId": null,
+     "fileLabel": "llb_degree.pdf"
+    },
+    {
+     "id": "cert_3",
+     "name": "Government Identity Proof",
+     "type": "required",
+     "status": "verified",
+     "verifiedDate": "2024-01-15",
+     "fileId": null,
+     "fileLabel": "aadhaar.pdf"
+    },
+    {
+     "id": "cert_4",
+     "name": "LLM Certificate",
+     "type": "optional",
+     "status": "verified",
+     "verifiedDate": "2024-02-20",
+     "fileId": null,
+     "fileLabel": "llm_cert.pdf"
+    },
+    {
+     "id": "cert_5",
+     "name": "Cyber Law Certification",
+     "type": "optional",
+     "status": "verified",
+     "verifiedDate": "2024-03-10",
+     "fileId": null,
+     "fileLabel": "cyber_law_cert.pdf"
+    },
+    {
+     "id": "cert_6",
+     "name": "Mediation Certification",
+     "type": "optional",
+     "status": "pending",
+     "verifiedDate": null,
+     "fileId": null,
+     "fileLabel": "mediation_cert.pdf"
+    }
+   ],
+   "pricing": [
+    {
+     "id": "price_1",
+     "service": "Initial Consultation",
+     "fee": 500,
+     "duration": "30 min",
+     "type": "fixed"
+    },
+    {
+     "id": "price_2",
+     "service": "Detailed Consultation",
+     "fee": 1000,
+     "duration": "60 min",
+     "type": "fixed"
+    },
+    {
+     "id": "price_3",
+     "service": "Document Review",
+     "fee": 750,
+     "duration": "Per Document",
+     "type": "fixed"
+    },
+    {
+     "id": "price_4",
+     "service": "Case Representation",
+     "fee": 5000,
+     "duration": "Per Case",
+     "type": "starting"
+    },
+    {
+     "id": "price_5",
+     "service": "Court Appearance",
+     "fee": 3000,
+     "duration": "Per Hearing",
+     "type": "starting"
+    },
+    {
+     "id": "price_6",
+     "service": "Legal Notice Drafting",
+     "fee": 2000,
+     "duration": "Per Notice",
+     "type": "negotiable"
+    }
+   ],
+   "availability": {
+    "monday": [
+     {
+      "start": "10:00",
+      "end": "13:00"
+     },
+     {
+      "start": "16:00",
+      "end": "19:00"
+     }
+    ],
+    "tuesday": [
+     {
+      "start": "10:00",
+      "end": "14:00"
+     }
+    ],
+    "wednesday": [],
+    "thursday": [
+     {
+      "start": "10:00",
+      "end": "13:00"
+     },
+     {
+      "start": "15:00",
+      "end": "18:00"
+     }
+    ],
+    "friday": [
+     {
+      "start": "10:00",
+      "end": "14:00"
+     },
+     {
+      "start": "16:00",
+      "end": "19:00"
+     }
+    ],
+    "saturday": [
+     {
+      "start": "10:00",
+      "end": "13:00"
+     }
+    ],
+    "sunday": []
+   },
+   "settings": {
+    "notifications": {
+     "clientRequests": true,
+     "payments": true,
+     "appointments": true,
+     "securityAlerts": true,
+     "caseUpdates": true,
+     "marketing": false
+    },
+    "privacy": {
+     "profileVisibility": "public",
+     "showEmail": false,
+     "showPhone": false,
+     "allowReviews": true,
+     "shareDocuments": "with_permission"
+    },
+    "security": {
+     "twoFactorEnabled": true,
+     "loginAlerts": true,
+     "sessionTimeout": 24
+    }
+   },
+   "verification": {
+    "identity": {
+     "status": "verified",
+     "date": "2024-01-15",
+     "method": "Government ID + Selfie match"
+    },
+    "barCouncil": {
+     "status": "verified",
+     "date": "2024-01-15",
+     "registrationNumber": "DL/1234/2010"
+    },
+    "education": {
+     "status": "verified",
+     "date": "2024-01-15",
+     "institution": "Delhi University"
+    },
+    "practiceCertificate": {
+     "status": "verified",
+     "date": "2024-01-20",
+     "validUntil": "2026-12-31"
+    },
+    "professionalProfile": {
+     "status": "verified",
+     "date": "2024-01-20"
+    },
+    "verificationId": "LC-VER-2024-0001",
+    "overallStatus": "verified",
+    "riskLevel": "low",
+    "lastUpdated": "2024-01-20"
+   }
+  }
+ }
+}

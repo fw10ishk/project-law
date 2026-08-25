@@ -250,8 +250,8 @@ const Utils = {
   },
 
   /* --------------------------------------------------------
-     VALIDATION
-     -------------------------------------------------------- */
+      VALIDATION
+      -------------------------------------------------------- */
   validateEmail(email) {
     const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return re.test(String(email).toLowerCase());
@@ -264,6 +264,18 @@ const Utils = {
 
   validateOTP(otp) {
     return /^\d{6}$/.test(String(otp));
+  },
+
+  /* --------------------------------------------------------
+     HTML ESCAPING (XSS protection for user-supplied strings)
+     -------------------------------------------------------- */
+  escapeHtml(value) {
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
   },
 
   /* --------------------------------------------------------

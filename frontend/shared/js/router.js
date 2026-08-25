@@ -1,6 +1,7 @@
 /* ============================================================
    LEGALCONNECT — SPA ROUTER
-   router.js — Hash-based routing with page transitions
+   router.js — Hash routing with auth guards, dynamic ':param'
+   segments, page transitions and lifecycle hooks
    ============================================================ */
 
 const Router = {
@@ -11,174 +12,160 @@ const Router = {
   _onNavigate: [],
 
   /* --------------------------------------------------------
-     ROUTE REGISTRATION
+     REGISTRATION
      -------------------------------------------------------- */
   register(path, handler, options = {}) {
     this.routes[path] = {
+      path,
       handler,
       requiresAuth: options.requiresAuth || false,
       title: options.title || 'LegalConnect',
       onEnter: options.onEnter || null,
-      onLeave: options.onLeave || null
+      onLeave: options.onLeave || null,
+      pattern: this.compilePattern(path)
     };
+  },
+
+  compilePattern(path) {
+    if (!path.includes(':')) return null;
+    const regex = new RegExp('^' + path.replace(/:[^/]+/g, '([^/]+)') + '$');
+    const names = (path.match(/:[^/]+/g) || []).map(n => n.slice(1));
+    return { regex, names };
+  },
+
+  /** Finds route for a literal hash path, extracting dynamic params. */
+  resolve(path) {
+    // Exact match first
+    if (this.routes[path]) return { route: this.routes[path], params: {} };
+    // Dynamic segments
+    for (const key of Object.keys(this.routes)) {
+      const r = this.routes[key];
+      if (!r.pattern) continue;
+      const m = r.pattern.regex.exec(path);
+      if (m) {
+        const params = {};
+        r.pattern.names.forEach((n, i) => { params[n] = decodeURIComponent(m[i + 1]); });
+        return { route: r, params };
+      }
+    }
+    return null;
   },
 
   /* --------------------------------------------------------
      GUARDS
      -------------------------------------------------------- */
-  addGuard(guardFn) {
-    this._guards.push(guardFn);
-  },
-
-  onNavigate(callback) {
-    this._onNavigate.push(callback);
-  },
+  addGuard(guardFn) { this._guards.push(guardFn); },
+  onNavigate(callback) { this._onNavigate.push(callback); },
 
   /* --------------------------------------------------------
      NAVIGATION
      -------------------------------------------------------- */
   async navigate(path, params = {}) {
-    // Run guards
     for (const guard of this._guards) {
       const result = guard(path, this.currentRoute);
       if (result === false) return;
-      if (typeof result === 'string') {
-        path = result;
-        break;
-      }
+      if (typeof result === 'string') { path = result; break; }
     }
 
-    // Check auth requirement
-    const route = this.routes[path];
-    if (!route) {
+    let resolved = this.resolve(path);
+    if (!resolved) {
       console.warn(`[Router] Route not found: ${path}`);
-      if (this.routes['/404']) {
-        path = '/404';
-      } else {
-        path = '/login';
-      }
+      resolved = this.resolve(AuthManager.isLoggedIn() ? '/dashboard' : '/login');
+      if (!resolved) return;
     }
 
-    const targetRoute = this.routes[path];
-    if (targetRoute.requiresAuth && !AuthManager.isLoggedIn()) {
+    const target = resolved.route;
+    const mergedParams = Object.keys(params || {}).length ? params : resolved.params;
+
+    if (target.requiresAuth && !AuthManager.isLoggedIn()) {
       window.location.hash = '#/login';
       return;
     }
 
-    // Leave current route
-    if (this.currentRoute && this.routes[this.currentRoute]) {
-      const currentRouteObj = this.routes[this.currentRoute];
-      if (currentRouteObj.onLeave) {
-        await currentRouteObj.onLeave();
-      }
+    // Leave hook of current page
+    if (this.currentRoute) {
+      const current = this.resolve(this.currentRoute);
+      if (current && current.route.onLeave) await current.route.onLeave();
     }
 
     this.previousRoute = this.currentRoute;
-    this.currentRoute = path;
+    this.currentRoute = target.path;
 
-    // Update URL hash
-    if (window.location.hash !== `#${path}`) {
+    const cleanHash = '#' + path;
+    if (window.location.hash !== cleanHash) {
       window.location.hash = path;
     }
 
-    // Update page title
-    document.title = targetRoute.title + ' — LegalConnect';
+    document.title = `${target.title} — LegalConnect`;
 
-    // Animate page transition
-    await this.transitionPage(path, params);
+    await this.transitionPage(path, mergedParams);
 
-    // Notify listeners
-    this._onNavigate.forEach(cb => cb(path, params));
-
-    // Scroll to top
+    this._onNavigate.forEach(cb => cb(path, mergedParams));
     Utils.scrollToTop(false);
   },
 
   /* --------------------------------------------------------
      PAGE TRANSITIONS
      -------------------------------------------------------- */
-  async transitionPage(path, params) {
+  async transitionPage(_path, params) {
     const app = document.getElementById('app');
     if (!app) return;
 
-    const route = this.routes[path];
-    if (!route) return;
+    const resolved = this.resolve(this.currentRoute || _path);
+    if (!resolved) return;
+    const route = resolved.route;
+    const renderParams = (params && Object.keys(params).length) ? params : resolved.params;
 
-    // Fade out current content
     app.style.opacity = '0';
     app.style.transform = 'translateY(8px)';
-    
-    await new Promise(resolve => setTimeout(resolve, 150));
+    await new Promise(resolve => setTimeout(resolve, 120));
 
-    // Render new content
     try {
-      const content = route.handler(params);
-      if (typeof content === 'string') {
-        app.innerHTML = content;
-      }
+      const content = route.handler(renderParams);
+      if (typeof content === 'string') app.innerHTML = content;
     } catch (err) {
-      console.error(`[Router] Error rendering route ${path}:`, err);
+      console.error(`[Router] Error rendering ${this.currentRoute}:`, err);
       app.innerHTML = `
         <div class="empty-state min-h-screen">
           <div class="empty-state-icon"><span class="material-symbols-rounded icon-xl">error</span></div>
           <h3 class="empty-state-title">Something went wrong</h3>
-          <p class="empty-state-text">${err.message}</p>
+          <p class="empty-state-text">${Utils.escapeHtml(err.message)}</p>
           <button class="btn btn-primary" onclick="Router.navigate('/dashboard')">Go to Dashboard</button>
-        </div>
-      `;
+        </div>`;
     }
 
-    // Fade in new content
     requestAnimationFrame(() => {
       app.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
       app.style.opacity = '1';
       app.style.transform = 'translateY(0)';
     });
 
-    // Run onEnter hook
-    if (route.onEnter) {
-      setTimeout(() => route.onEnter(params), 50);
-    }
+    if (route.onEnter) setTimeout(() => route.onEnter(renderParams), 50);
   },
 
   /* --------------------------------------------------------
-     INITIALIZATION
+     INIT
      -------------------------------------------------------- */
   init() {
-    // Listen for hash changes
     window.addEventListener('hashchange', () => {
       const path = this.getPathFromHash();
-      if (path !== this.currentRoute) {
-        this.navigate(path);
-      }
+      if (path !== this.currentRoute) this.navigate(path);
     });
 
-    // Handle initial route
-    const initialPath = this.getPathFromHash() || '/splash';
+    const initialPath = this.getPathFromHash();
     this.navigate(initialPath);
   },
 
-  /* --------------------------------------------------------
-     HELPERS
-     -------------------------------------------------------- */
   getPathFromHash() {
-    const hash = window.location.hash.replace('#', '');
-    return hash || '/splash';
+    const raw = window.location.hash.replace(/^#/, '');
+    return raw || '/splash';
   },
 
   back() {
-    if (this.previousRoute) {
-      this.navigate(this.previousRoute);
-    } else {
-      window.history.back();
-    }
+    if (this.previousRoute) this.navigate(this.previousRoute);
+    else window.history.back();
   },
 
-  getCurrentRoute() {
-    return this.currentRoute;
-  },
-
-  isActive(path) {
-    return this.currentRoute === path;
-  }
+  getCurrentRoute() { return this.currentRoute; },
+  isActive(path) { return this.currentRoute === path; }
 };

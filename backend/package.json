@@ -1,22 +1,22 @@
 {
-  "name": "lawmate-backend",
-  "version": "1.0.0",
-  "description": "Backend for LawMate Project",
+  "name": "legalconnect-backend",
+  "version": "2.0.0",
+  "description": "LegalConnect — AI-Powered Advocate Portal & Virtual Court Platform (API + Static Host)",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js"
   },
+  "license": "MIT",
   "dependencies": {
-    "express": "^4.18.2",
-    "dotenv": "^16.3.1",
-    "cors": "^2.8.5",
-    "helmet": "^7.0.0",
-    "morgan": "^1.10.0",
-    "jsonwebtoken": "^9.0.1",
     "bcryptjs": "^2.4.3",
-    "pg": "^8.11.3",
-    "mongoose": "^7.4.1"
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.0.0",
+    "jsonwebtoken": "^9.0.1",
+    "morgan": "^1.10.0",
+    "multer": "^2.2.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
