@@ -1,0 +1,55 @@
+Role: Senior Full-Stack Authentication & Security Engineer
+
+Objective:
+Build a robust, globally available, production-ready Email + Password + 6-Digit Numeric Email OTP Verification & Login System for a modern web application.
+
+Target Architecture & Stack:
+- Frontend: HTML5, CSS3/TailwindCSS, Vanilla JavaScript (or React/Next.js)
+- Backend: Node.js with Express.js
+- Database/Cache: MongoDB/PostgreSQL for user data + Redis (or In-Memory/DB fallback) for temporary OTP storage with auto-expiry
+- Email Delivery: Transactional Email API (Resend / SendGrid / Brevo API) to ensure 99.9% inbox delivery worldwide (Gmail, Yahoo, Outlook, custom domains)
+
+Requirements & Detailed Specifications:
+
+1. Database Schema & Models:
+   - User Schema: id, email, passwordHash, isVerified, createdAt, updatedAt.
+   - OTP Verification Schema / Redis Key:
+     - key: `otp:${email}`
+     - values: hashedOtp, attemptsCount (max 3-5), expiresAt (5 minutes), isUsed (boolean).
+
+2. Security & Rate Limiting:
+   - Rate Limiting: Max 3 OTP requests per email per 15 minutes to prevent email flooding/spam.
+   - Maximum Failed Attempts: Lock the OTP after 5 consecutive incorrect attempts.
+   - Cryptographic Randomness: Use crypto.randomInt(100000, 999999) for unpredictable 6-digit generation.
+   - Passwords & OTPs must never be stored in plain text (use bcrypt).
+
+3. Backend API Endpoints (Express.js):
+   - `POST /api/auth/register-initiate`:
+     - Receives `email`, `password`.
+     - Validates format, hashes password, generates 6-digit OTP, stores OTP in Redis/DB with 5 min TTL.
+     - Triggers transactional email with the 6-digit code inside a responsive HTML template.
+   - `POST /api/auth/verify-otp`:
+     - Receives `email`, `otp`.
+     - Validates OTP against stored hash, checks expiry and attempts count.
+     - If valid: marks user verified, clears the temporary OTP, issues a JWT auth token in an HttpOnly secure cookie.
+   - `POST /api/auth/resend-otp`:
+     - Allows resending OTP only if at least 60 seconds have elapsed since last send.
+   - `POST /api/auth/login`:
+     - Standard credentials check, triggers OTP if 2FA is required, or logs in directly if verified.
+
+4. Email Template:
+   - Provide a clean, dark-mode compatible HTML email template containing:
+     - Clear sender branding.
+     - Bold 6-digit code box with large typography.
+     - Expiry warning (5 minutes) and security disclaimer.
+
+5. Frontend UI/UX:
+   - Step 1 Screen: Responsive clean form for Email & Password input.
+   - Step 2 Screen: 6 separate individual digit input boxes with auto-focus movement, paste functionality (pasting full 6 digits fills all boxes), a countdown timer (05:00), and an enabled/disabled "Resend Code" state.
+   - Asynchronous fetch API calls handling all success, error, and rate-limit states with informative UI alerts.
+
+Please provide:
+1. Complete, copy-paste ready backend code with modular structure.
+2. Complete frontend HTML, CSS, and JS code.
+3. Step-by-step setup guide for configuring the Email API keys and running the project locally.
+sab yah mere website me real mein hona chahiye jo bhi demo hai uss ko remove karo or wroking website means ready karo jis me yah sab ho or live time me hona chahiye user means lawayer ko lag fill nahi hona chahiye mere website ok real production level ka create karo abhi otp or login or e=register vala ok sab link hona chahiye ek dusere se koi bhi jese real world me kese login or register hota hai uss type se hi bass abhi mere wen=bsite ke according hona chahiye ok jo yah rate limit or time of otp or baki sab kese hota hai real website me uss type ise mere bhi website me hona chahiye

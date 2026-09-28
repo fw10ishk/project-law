@@ -1,0 +1,251 @@
+/* ============================================================
+   Nyay Setu — UI POLISH LAYER (v2 additions)
+   polish.css — Styles for new/updated components: notification
+   list, honest badges, upload states, banners, skeletons,
+   editors and responsive table handling.
+   ============================================================ */
+
+/* ---------- Empty state ---------- */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-12) var(--space-6);
+  gap: var(--space-2);
+  min-height: 280px;
+}
+.empty-state-icon {
+  width: 84px;
+  height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--color-accent-50), var(--color-gray-100));
+  color: var(--color-gray-400);
+  margin-bottom: var(--space-3);
+}
+.empty-state-title {
+  font-family: var(--font-display);
+  font-size: var(--text-headline-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-gray-800);
+}
+.empty-state-text {
+  color: var(--color-gray-500);
+  font-size: var(--text-body-md);
+  max-width: 380px;
+}
+
+/* ---------- Verified / pending ticks ---------- */
+.pending-tick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  border-radius: var(--radius-full);
+  background: rgba(245, 158, 11, 0.18);
+  color: var(--color-gold-dark);
+  flex-shrink: 0;
+}
+.pending-tick .material-symbols-rounded { font-size: 11px; }
+
+.greeting-badge.pending {
+  background: rgba(245, 158, 11, 0.12);
+  color: var(--color-gold-dark);
+}
+
+/* ---------- Banners ---------- */
+.warning-banner {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+.warning-banner .material-symbols-rounded { color: var(--color-gold-dark); }
+
+.sidebar-status-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 var(--space-4) var(--space-3);
+  padding: 7px 12px;
+  border-radius: var(--radius-full);
+  background: rgba(245, 158, 11, 0.14);
+  color: var(--color-gold-dark);
+  font-size: var(--text-label-md);
+  font-weight: var(--weight-semibold);
+  justify-content: center;
+}
+
+/* ---------- Form validation feedback ---------- */
+.input-error {
+  border-color: var(--color-error) !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+.form-error-text {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-error-dark);
+  font-size: var(--text-label-md);
+  margin-top: var(--space-1);
+}
+.form-error-text .icon-sm { font-size: 14px; }
+
+/* ---------- Notification list ---------- */
+.notif-list { display: flex; flex-direction: column; gap: var(--space-2); }
+.notif-item { cursor: pointer; transition: transform var(--transition-fast), box-shadow var(--transition-fast); }
+.notif-item:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+.notif-item.unread {
+  background: linear-gradient(90deg, var(--color-accent-50), transparent 60%);
+  border-left: 3px solid var(--color-accent);
+}
+.unread-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+/* ---------- Verification document badges ---------- */
+.doc-verification-badge.awaiting {
+  background: rgba(245, 158, 11, 0.14);
+  color: var(--color-gold-dark);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: var(--text-label-sm);
+  font-weight: var(--weight-semibold);
+}
+.doc-verification-badge.pending {
+  background: var(--color-gray-100);
+  color: var(--color-gray-500);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: var(--text-label-sm);
+  font-weight: var(--weight-semibold);
+}
+.liveness-step.pending-manual { opacity: 0.85; }
+.liveness-step.pending-manual .liveness-step-icon { background: rgba(245,158,11,.15); color: var(--color-gold-dark); }
+
+/* ---------- Responsive tables ---------- */
+.table-scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.table-scroll-x table { min-width: 720px; }
+
+/* ---------- Skeleton loaders ---------- */
+.skeleton-stack { display: flex; flex-direction: column; gap: var(--space-3); }
+.skeleton-row {
+  height: 64px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(90deg, #eef1f6 25%, #f7f9fc 50%, #eef1f6 75%);
+  background-size: 200% 100%;
+  animation: lcShimmer 1.4s ease-in-out infinite;
+}
+@keyframes lcShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ---------- Pricing editor rows ---------- */
+.pricing-edit-row {
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-gray-100);
+}
+.pricing-edit-row:last-child { border-bottom: none; }
+
+/* ---------- Availability slot chips ---------- */
+.avail-slot-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+.slot-remove {
+  width: 16px; height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--color-error);
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  border: none;
+}
+.slot-remove:hover { background: rgba(239, 68, 68, 0.22); }
+
+/* ---------- Settings nav danger item ---------- */
+.settings-nav-item.danger { color: var(--color-error); }
+.settings-nav-item.danger.active { background: rgba(239, 68, 68, 0.08); }
+
+/* ---------- Chat file bubbles ---------- */
+.message-bubble-file {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.message-bubble-file .material-symbols-rounded { font-size: 26px; opacity: 0.85; }
+
+/* ---------- Profile avatar edit affordance ---------- */
+.profile-avatar-large[role="button"] { cursor: pointer; position: relative; }
+.profile-avatar-large[role="button"]:hover::after {
+  content: 'Edit';
+  position: absolute;
+  inset: auto 0 0 0;
+  background: rgba(17, 27, 48, 0.72);
+  color: #fff;
+  font-size: 11px;
+  text-align: center;
+  padding: 4px 0;
+  border-radius: 0 0 inherit inherit;
+  backdrop-filter: blur(4px);
+}
+
+/* ---------- Focus visibility (a11y) ---------- */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible,
+.tab-item:focus-visible,
+.chip:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Small-screen refinements ---------- */
+@media (max-width: 640px) {
+  .topbar-search { display: none; }
+  .stat-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dashboard-greeting .d-flex.gap-3 { width: 100%; }
+  .dashboard-greeting .btn { flex: 1; justify-content: center; }
+  .client-request-card { flex-direction: column; align-items: stretch; }
+  .client-request-actions { flex-direction: row; align-items: center; gap: var(--space-2); }
+  .client-request-actions .btn-block { width: auto; flex: 1; }
+  .availability-day-row { flex-wrap: wrap; }
+  .avail-slots-list { width: 100%; order: 3; }
+  .settings-layout { grid-template-columns: 1fr; }
+  .settings-nav {
+    display: flex;
+    overflow-x: auto;
+    gap: var(--space-2);
+    padding-bottom: var(--space-2);
+  }
+  .settings-nav-item { white-space: nowrap; flex-shrink: 0; }
+  .case-status-stepper { overflow-x: auto; }
+}

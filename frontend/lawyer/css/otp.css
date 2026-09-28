@@ -1,0 +1,312 @@
+/* ============================================================
+   Nyay Setu — OTP & DEVICE CHECK
+   otp.css — OTP verification, 2FA, new device confirmation
+   ============================================================ */
+
+/* ============================================================
+   1. OTP INPUT
+   ============================================================ */
+.otp-container {
+  text-align: center;
+}
+
+.otp-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-accent-50), rgba(13, 148, 136, 0.15));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-6);
+  animation: breathe 3s ease-in-out infinite;
+}
+
+.otp-icon .material-symbols-rounded {
+  font-size: 36px;
+  color: var(--color-accent);
+}
+
+.otp-title {
+  font-family: var(--font-display);
+  font-size: var(--text-headline-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-gray-900);
+  margin-bottom: var(--space-2);
+}
+
+.otp-subtitle {
+  font-size: var(--text-body-md);
+  color: var(--color-gray-500);
+  margin-bottom: var(--space-8);
+}
+
+.otp-subtitle strong {
+  color: var(--color-gray-700);
+  font-weight: var(--weight-medium);
+}
+
+.otp-inputs {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+  margin-bottom: var(--space-6);
+}
+
+.otp-input {
+  width: 52px;
+  height: 60px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: var(--text-headline-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-gray-900);
+  background: var(--color-white);
+  border: 2px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-fast);
+  caret-color: var(--color-accent);
+}
+
+.otp-input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-100);
+  transform: scale(1.05);
+}
+
+.otp-input.filled {
+  border-color: var(--color-accent);
+  background: var(--color-accent-50);
+}
+
+.otp-input.error {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  50% { transform: translateX(8px); }
+  75% { transform: translateX(-4px); }
+}
+
+.otp-timer {
+  font-size: var(--text-body-sm);
+  color: var(--color-gray-500);
+  margin-bottom: var(--space-6);
+}
+
+.otp-timer .time {
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent);
+  font-family: var(--font-display);
+}
+
+.otp-resend {
+  font-size: var(--text-body-sm);
+  color: var(--color-gray-400);
+  margin-bottom: var(--space-8);
+}
+
+.otp-resend-btn {
+  color: var(--color-accent);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  transition: color var(--transition-fast);
+}
+
+.otp-resend-btn:hover {
+  color: var(--color-accent-dark);
+}
+
+.otp-resend-btn:disabled {
+  color: var(--color-gray-300);
+  cursor: not-allowed;
+}
+
+/* Inline alert banner for expiry / wrong-code / rate-limit feedback */
+.otp-alert {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  text-align: left;
+  font-size: var(--text-body-sm);
+  line-height: 1.45;
+  border-radius: var(--radius-md, 10px);
+  padding: 10px 14px;
+  margin-bottom: var(--space-5);
+  animation: fadeIn 0.25s ease;
+}
+
+.otp-alert .material-symbols-rounded {
+  font-size: 18px;
+  margin-top: 1px;
+}
+
+.otp-alert-error {
+  background: rgba(239, 68, 68, 0.12);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.otp-alert-warning {
+  background: rgba(245, 158, 11, 0.12);
+  color: #fcd34d;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.otp-alert-info {
+  background: rgba(20, 184, 166, 0.12);
+  color: var(--color-accent-lighter, #5eead4);
+  border: 1px solid rgba(20, 184, 166, 0.35);
+}
+
+.otp-alert-success {
+  background: rgba(16, 185, 129, 0.12);
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.otp-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-size: var(--text-body-sm);
+  color: var(--color-error);
+  margin-bottom: var(--space-4);
+  animation: fadeIn 0.3s ease;
+}
+
+.otp-success {
+  animation: bounceIn 0.5s ease-out;
+}
+
+.otp-success-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--color-success-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-6);
+}
+
+.otp-success-icon .material-symbols-rounded {
+  font-size: 44px;
+  color: var(--color-success);
+}
+
+.otp-success-text {
+  font-family: var(--font-display);
+  font-size: var(--text-title-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--color-success);
+  margin-bottom: var(--space-2);
+}
+
+/* ============================================================
+   2. NEW DEVICE CHECK
+   ============================================================ */
+.device-check {
+  text-align: center;
+}
+
+.device-check-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--color-warning-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-6);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.device-check-icon .material-symbols-rounded {
+  font-size: 36px;
+  color: var(--color-gold-dark);
+}
+
+.device-info-card {
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin: var(--space-6) 0;
+  text-align: left;
+}
+
+.device-info-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+}
+
+.device-info-row:not(:last-child) {
+  border-bottom: 1px solid var(--color-gray-100);
+}
+
+.device-info-row .material-symbols-rounded {
+  color: var(--color-gray-500);
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.device-info-label {
+  font-size: var(--text-body-sm);
+  color: var(--color-gray-500);
+  min-width: 100px;
+}
+
+.device-info-value {
+  font-size: var(--text-body-md);
+  font-weight: var(--weight-medium);
+  color: var(--color-gray-800);
+}
+
+.device-actions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.device-actions .btn {
+  flex: 1;
+}
+
+.device-success {
+  background: var(--color-success-light);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  animation: slideUp 0.4s ease-out;
+}
+
+.device-success .material-symbols-rounded {
+  color: var(--color-success);
+  font-size: 24px;
+}
+
+.device-success p {
+  font-size: var(--text-body-sm);
+  color: var(--color-success-dark);
+  font-weight: var(--weight-medium);
+}
+
+

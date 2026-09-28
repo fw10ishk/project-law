@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Nyay Setu — AI Legal Assistant & Virtual Court Simulator</title>
+    <meta
+      name="description"
+      content="Nyay Setu helps individuals understand their legal situation, find verified advocates, securely manage documents, and prepare for court with AI simulations."
+    />
+    <meta name="theme-color" content="#1a2744" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231a2744'><path d='M12 2L1 21h22L12 2zm0 3.8L19.5 19H4.5L12 5.8z'/></svg>"
+    />
+
+    <!-- Google Fonts: Inter, Roboto & Material Symbols Rounded -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+
+    <!-- Google Identity Services (Google Sign-In) -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <!-- Shared Foundation Styles -->
+    <link rel="stylesheet" href="../shared/css/common.css" />
+    <link rel="stylesheet" href="../shared/css/components.css" />
+    <link rel="stylesheet" href="../shared/css/animations.css" />
+    <link rel="stylesheet" href="../shared/css/polish.css" />
+
+    <!-- User Portal Premium Dark Design Styles (Netflix/Apple/Google inspired) -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/splash.css" />
+    <link rel="stylesheet" href="css/auth.css" />
+    <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/case.css" />
+    <link rel="stylesheet" href="css/lawyer.css" />
+    <link rel="stylesheet" href="css/chat.css" />
+    <link rel="stylesheet" href="css/court.css?v=11.0" />
+    <link rel="stylesheet" href="css/profile.css" />
+  </head>
+  <body>
+    <!-- SPA Mount Point -->
+    <div id="app"></div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Three.js Library & Loaders -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+
+    <!-- Shared Architecture Libraries -->
+    <script src="../shared/js/utils.js?v=4.0"></script>
+    <script src="../shared/js/store.js?v=4.0"></script>
+    <script src="../shared/js/auth.js?v=4.0"></script>
+    <script src="../shared/js/router.js?v=4.0"></script>
+
+    <!-- User State Store & API Client -->
+    <script src="js/api_client.js?v=4.0"></script>
+
+    <!-- User UI Component Builders -->
+    <script src="js/components.js?v=4.0"></script>
+
+    <!-- User Page Modules -->
+    <script src="js/splash_page.js?v=4.0"></script>
+    <script src="js/auth_page.js?v=4.0"></script>
+    <script src="js/home_page.js?v=4.0"></script>
+    <script src="js/case_page.js?v=4.0"></script>
+    <script src="js/chat_tts.js?v=4.2"></script>
+    <script src="js/chat_bot.js?v=4.2"></script>
+    <script src="js/lawyer_page.js?v=4.0"></script>
+    <script src="js/court_simulator.js?v=11.0"></script>
+    <script src="js/court_page.js?v=4.0"></script>
+    <script src="js/profile_page.js?v=4.0"></script>
+
+    <!-- Demo Data Seeder (remove for production) -->
+    <script src="js/mockData.js?v=4.0"></script>
+
+    <!-- App Bootstrap Entry -->
+    <script src="js/app.js?v=4.0"></script>
+  </body>
+</html>

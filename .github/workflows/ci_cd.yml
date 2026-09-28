@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        working-directory: backend
+        run: npm ci
+      - name: Syntax-check all backend sources
+        run: for f in $(find backend/src -name '*.js'); do node --check "$f"; done
+      - name: Boot server & smoke-test API
+        working-directory: backend
+        run: |
+          node src/server.js &
+          sleep 3
+          curl -fsS http://localhost:3000/api/auth/session | grep -q "Authentication required"
+          curl -fsS -o /dev/null -w "%{http_code}" http://localhost:3000/ | grep -q 302
+          kill %1
